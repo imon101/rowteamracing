@@ -1,5 +1,7 @@
 package Core;
 
+//TODO: Aprender a bassear "Hablame de ti bella señora" y patear TODOS los traseros peludos del mundo 
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ import com.jme.system.JmeException;
 import com.jme.util.TextureManager;
 import com.jme.util.Timer;
 import com.jme.util.geom.Debugger;
+import com.jmex.physics.PhysicsSpace;
 
 /**
  * Started Date: Jul 29, 2004<br>
@@ -44,7 +47,7 @@ import com.jme.util.geom.Debugger;
 public class Core extends BaseGame {
 	/** TODO: Move this string to a configuration file */
 	final static String initialSceneName = "Game.InitialScene";
-	
+
 	private static final Logger logger = Logger.getLogger(Core.class.getName());
 
 	/** I am a singleton. */
@@ -69,12 +72,15 @@ public class Core extends BaseGame {
 	protected WireframeState wireState;
 	/** A lightstate to turn on and off for the rootNode */
 	protected LightState lightState;
+	/** a physics space */
+	protected PhysicsSpace physicsSpace;
+	protected float physicsSpeed;
+	protected boolean firstFrame = true;
+	Scene scene;
 	/** Location of the font for jME's text at the bottom */
 	public static String fontLocation = "com/jme/app/defaultfont.tga";
 	/** The list of nodes to update */
 	public ArrayList<Behaviour> behaviours;
-
-	private Scene scene;
 
 	public static void main(String[] args) {
 		Core app = new Core();
@@ -99,8 +105,23 @@ public class Core extends BaseGame {
 		timer.update();
 		/** Update tpf to time per frame according to the Timer. */
 		tpf = timer.getTimePerFrame();
+
+		// disable input as we want it to be updated _after_ physics
+		// in your application derived from BaseGame you can simply make the
+		// call to InputHandler.update later
+		// in your game loop instead of this disabling and re-enabling
+		if (tpf > 0.2 || Float.isNaN(tpf)) {
+			Logger.getLogger(PhysicsSpace.LOGGER_NAME).warning(
+					"Maximum physics update interval is 0.2 seconds - capped.");
+			tpf = 0.2f;
+		}
+
+		/** Update physics */
+		physicsSpace.update(tpf * physicsSpeed);
+
 		/** Check for key/mouse updates. */
 		input.update(tpf);
+
 		/** Send the fps to our fps bar at the bottom. */
 		fps.print("FPS: " + (int) timer.getFrameRate());
 
@@ -145,8 +166,15 @@ public class Core extends BaseGame {
 		}
 
 		if (KeyBindingManager.getKeyBindingManager().isValidCommand("exit",
-				false)) {
+				false))
 			finish();
+
+		if (firstFrame) {
+			// drawing and calculating the first frame usually takes longer than
+			// the rest
+			// to avoid a rushing simulation we reset the timer
+			timer.reset();
+			firstFrame = false;
 		}
 	}
 
@@ -222,12 +250,19 @@ public class Core extends BaseGame {
 		/** Assign the camera to this renderer. */
 		display.getRenderer().setCamera(cam);
 
-		/** Create a basic input controller. */
-		FirstPersonHandler firstPersonHandler = new FirstPersonHandler(cam);
-		/** Signal to all key inputs they should work 10x faster. */
-		firstPersonHandler.getKeyboardLookHandler().setActionSpeed(10f);
-		firstPersonHandler.getMouseLookHandler().setActionSpeed(1f);
-		input = firstPersonHandler;
+		// /** Create a basic input controller. */
+		// FirstPersonHandler firstPersonHandler = new FirstPersonHandler(cam);
+		//		
+		// /** Signal to all key inputs they should work 10x faster. */
+		// firstPersonHandler.getKeyboardLookHandler().setActionSpeed(10f);
+		// firstPersonHandler.getMouseLookHandler().setActionSpeed(1f);
+		// input = firstPersonHandler;
+		input = new InputHandler();
+
+		/** Initialize physics */
+		physicsSpace = PhysicsSpace.create();
+		physicsSpace.setAutoRestThreshold(0.2f);
+		physicsSpeed = 4;
 
 		/** Get a high resolution timer for FPS updates. */
 		timer = Timer.getTimer();
@@ -331,7 +366,6 @@ public class Core extends BaseGame {
 		rootNode.setRenderState(lightState);
 
 		/** Find and initialize the initial scene. */
-		
 		try {
 			Class sceneClass = Class.forName(initialSceneName);
 			scene = (Scene) sceneClass.newInstance();
@@ -375,5 +409,13 @@ public class Core extends BaseGame {
 		KeyInput.destroyIfInitalized();
 		MouseInput.destroyIfInitalized();
 		JoystickInput.destroyIfInitalized();
+	}
+	
+	public InputHandler getInput() {
+		return input;
+	}
+
+	static public Core getInstance() {
+		return instance;
 	}
 }
