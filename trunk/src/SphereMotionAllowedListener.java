@@ -113,7 +113,7 @@ public class SphereMotionAllowedListener implements MotionAllowedListener {
     }
 
     public void checkMotionAllowed(Vector3f position, Vector3f velocity) {
-        if (velocity.getX() == 0 && velocity.getZ() == 0)
+        if (velocity.getX() == 0 && velocity.getY() == 0 && velocity.getZ() == 0)
             return;
 
         depth = 0;
