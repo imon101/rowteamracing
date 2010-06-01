@@ -1,141 +1,121 @@
-
-
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
-import com.jme3.collision.MotionAllowedListener;
 import com.jme3.collision.SweepSphere;
 import com.jme3.math.Plane;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-public class SphereMotionAllowedListener implements MotionAllowedListener {
+public class SphereMotionAllowedListener {
 
-    private Ray ray = new Ray();
-    private SweepSphere ss = new SweepSphere();
-    private CollisionResults results = new CollisionResults();
-    private Spatial scene;
-    private Vector3f dimension = new Vector3f();
+	private Ray ray = new Ray();
+	private SweepSphere ss = new SweepSphere();
+	private CollisionResults results = new CollisionResults();
+	private Spatial scene;
+	private float radius;
 
-    private Vector3f newPos = new Vector3f();
-    private Vector3f newVel = new Vector3f();
+	private Vector3f newPos = new Vector3f();
+	private Vector3f newVel = new Vector3f();
 
-    private float charHeight;
-    private float footHeight;
-    private float footStart;
-    private float sphHeight;
-    private float sphCenter;
+	final float unitsPerMeter = 100.0f;
+	final float unitScale = unitsPerMeter / 100.0f;
+	final float veryCloseDist = 0.005f * unitScale;
 
-    final float unitsPerMeter = 100.0f;
-    final float unitScale = unitsPerMeter / 100.0f;
-    final float veryCloseDist = 0.005f * unitScale;
+	private int depth = 0;
 
-    private int depth = 0;
+	public SphereMotionAllowedListener(Spatial scene, float radius) {
+		if (scene == null)
+			throw new NullPointerException();
 
-    public SphereMotionAllowedListener(Spatial scene, Vector3f dimension){
-        if (scene == null || dimension == null)
-            throw new NullPointerException();
+		this.scene = scene;
+		this.radius = radius;
+	}
 
-        this.scene = scene;
-        
-        charHeight = dimension.getY();
+	private void collideWithWorld() {
+		if (depth > 3) {
+			return;
+		}
 
-        footHeight = charHeight / 3f;
-        footStart = -(charHeight / 2f) + footHeight;
-        sphHeight = charHeight - footHeight;
-        sphCenter = (charHeight / 2f) - (sphHeight / 2f);
-        this.dimension.set(dimension);
-        this.dimension.setY(sphHeight);
-    }
+		if (newVel.length() < veryCloseDist)
+			return;
 
-    private void collideWithWorld(){
-        if (depth > 3){
-//            System.out.println("DEPTH LIMIT REACHED!!");
-            return;
-        }
+		Vector3f destination = newPos.add(0, radius / 3f, 0).add(newVel);
 
-        if (newVel.length() < veryCloseDist)
-            return;
+		ss.setCenter(newPos.add(0, radius / 3f, 0));
+		ss.setVelocity(newVel);
+		ss.setDimension(new Vector3f(radius * 2, radius * 4f / 3f, radius * 2));
 
-        Vector3f destination = newPos.add(0, sphCenter, 0).add(newVel);
+		results.clear();
+		scene.collideWith(ss, results);
 
-        ss.setCenter(newPos.add(0, sphCenter, 0));
-        ss.setVelocity(newVel);
-        ss.setDimension(dimension);
+		if (results.size() == 0) {
+			newPos.addLocal(newVel);
+			return;
+		}
 
-        results.clear();
-        scene.collideWith(ss, results);
+		for (int i = 0; i < results.size(); i++) {
+			CollisionResult collision = results.getCollision(i);
+			// *** collision occured ***
+			Vector3f contactPoint = collision.getContactPoint().clone();
+			float dist = collision.getDistance();
 
-        if (results.size() == 0){
-            newPos.addLocal(newVel);
-            return;
-        }
+			if (dist >= veryCloseDist) {
+				// P += ||V|| * dist
+				Vector3f tmp = new Vector3f(newVel);
+				tmp.normalizeLocal().multLocal(dist - veryCloseDist);
+				newPos.addLocal(tmp);
 
-        for (int i = 0; i < results.size(); i++){
-            CollisionResult collision = results.getCollision(i);
-            // *** collision occured ***
-//            Vector3f destination = newPos.add(newVel);
-            Vector3f contactPoint = collision.getContactPoint().clone();
-            float dist = collision.getDistance();
+				tmp.normalizeLocal();
+				tmp.multLocal(veryCloseDist);
+				contactPoint.subtractLocal(tmp);
+			}
 
-            if (dist >= veryCloseDist){
-                // P += ||V|| * dist
-                Vector3f tmp = new Vector3f(newVel);
-                tmp.normalizeLocal().multLocal(dist - veryCloseDist);
-                newPos.addLocal(tmp);
+			Vector3f normal = collision.getContactNormal();
 
-                tmp.normalizeLocal();
-                tmp.multLocal(veryCloseDist);
-                contactPoint.subtractLocal(tmp);
-            }
+			Plane p = new Plane();
+			p.setOriginNormal(contactPoint, normal);
 
-    //        Vector3f normal = newPos.subtract(contactPoint).normalizeLocal();
-            Vector3f normal = collision.getContactNormal();
+			Vector3f destinationOnPlane = p.getClosestPoint(destination);
+			newVel.set(destinationOnPlane).subtractLocal(contactPoint);
 
-            Plane p = new Plane();
-            p.setOriginNormal(contactPoint, normal);
+			// recurse:
+			if (newVel.length() < veryCloseDist) {
+				return;
+			}
+		}
 
-            Vector3f destinationOnPlane = p.getClosestPoint(destination);
-            newVel.set(destinationOnPlane).subtractLocal(contactPoint);
-    //        normal.multLocal(normal.dot(destination) -  veryCloseDist);
-    ////        normal.multLocal(p.pseudoDistance(destination));
-    //        Vector3f newDest = destination.add(normal);
-    //        newVel.set(newDest).subtractLocal(contactPoint);
+		depth = depth + 1;
+		collideWithWorld();
+	}
 
-            // recurse:
-            if (newVel.length() < veryCloseDist){
-                return;
-            }
-        }
+	public void checkMotionAllowed(Vector3f position, Vector3f velocity, Vector3f normal) {
+		if (velocity.getX() == 0 && velocity.getY() == 0 && velocity.getZ() == 0)
+			return;
 
-        depth = depth + 1;
-        collideWithWorld();
-    }
+		depth = 0;
+		newPos.set(position);
+		newVel.set(velocity);
+		velocity.setY(0);
+		collideWithWorld();
 
-    public void checkMotionAllowed(Vector3f position, Vector3f velocity) {
-        if (velocity.getX() == 0 && velocity.getY() == 0 && velocity.getZ() == 0)
-            return;
+		ray.setOrigin(newPos.add(0, -radius / 3f, 0));
+		ray.setDirection(new Vector3f(0, -1, 0));
 
-        depth = 0;
-        newPos.set(position);
-        newVel.set(velocity);
-        velocity.setY(0);
-//        newPos.addLocal(velocity);
-        collideWithWorld();
+		results.clear();
+		scene.collideWith(ray, results);
+		CollisionResult result = results.getClosestCollision();
+		if (result != null) {
+			newPos.y = result.getContactPoint().getY() + radius;
+		}
 
-        ray.setOrigin(newPos.add(0, footStart, 0));
-        ray.setDirection(new Vector3f(0, -1, 0));
-//        ray.setLimit(footHeight);
+		normal.zero();
+		for (CollisionResult r : results)
+			normal.add(r.getContactNormal());
+		normal.divide(results.size());
+		if (results.size() >= 1)
+			System.out.println("normal changed = " + normal);
 
-        results.clear();
-        scene.collideWith(ray, results);
-        CollisionResult result = results.getClosestCollision();
-        if (result != null){
-            newPos.y = result.getContactPoint().getY() + charHeight / 2f;
-        }
-            
-        position.set(newPos);
-    }
-
+		position.set(newPos);
+	}
 
 }
