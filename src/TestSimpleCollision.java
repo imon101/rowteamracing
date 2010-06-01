@@ -6,6 +6,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Cylinder;
 import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
@@ -27,15 +28,18 @@ public class TestSimpleCollision extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
-		Geometry g, sc;
+		Geometry g;
+		Geometry sc = new Geometry("Sphere Character", new Sphere(32, 32, 0.2f));
+		Geometry cyl = new Geometry("Cylinder", new Cylinder(20, 20, 0.5f, 1.0f));
+		Node node = new Node("Character");
+		
+		node.attachChild(sc);
+		node.attachChild(cyl);
+		node.move(-2.5f, 0.5f, 2.5f);
 
-		Sphere s = new Sphere(32, 32, 0.2f);
-		sc = new Geometry("Sphere Character", s);
-
-		sc.move(-2.5f, 0.5f, 2.5f);
-		sc.setMaterial((Material) assetManager.loadAsset(new AssetKey(
-				"Interface/Logo/Logo.j3m")));
-		rootNode.attachChild(sc);
+		sc.setMaterial((Material) assetManager.loadAsset(new AssetKey("Interface/Logo/Logo.j3m")));
+		cyl.setMaterial((Material) assetManager.loadAsset(new AssetKey("Interface/Logo/Logo.j3m")));
+		rootNode.attachChild(node);
 
 		Quad q = new Quad(5, 5);
 		q.createCollisionData();
@@ -44,20 +48,18 @@ public class TestSimpleCollision extends SimpleApplication {
 		
 		g = new Geometry("Quad Geom", q);
 		g.rotate(FastMath.HALF_PI, 0, FastMath.PI);
-		g.setMaterial((Material) assetManager.loadAsset(new AssetKey(
-				"Interface/Logo/Logo.j3m")));
+		g.setMaterial((Material) assetManager.loadAsset(new AssetKey("Interface/Logo/Logo.j3m")));
 		scenario.attachChild(g);
 
 		g = new Geometry("Hill", q);
 		g.rotate(FastMath.HALF_PI * 1.1f, 0, FastMath.PI);
 		g.move(0, 0, 5);
-		g.setMaterial((Material) assetManager.loadAsset(new AssetKey(
-				"Interface/Logo/Logo.j3m")));
+		g.setMaterial((Material) assetManager.loadAsset(new AssetKey("Interface/Logo/Logo.j3m")));
 		scenario.attachChild(g);
 
 		rootNode.attachChild(scenario);
 		
-		sm = new SurfaceMover(sc, scenario, inputManager);
+		sm = new SurfaceMover(node, cyl, scenario, inputManager);
 	}
 
 }
