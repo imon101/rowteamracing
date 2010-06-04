@@ -1,0 +1,262 @@
+INFO JmeSystem 04:48:51 Running on jMonkey Engine 3 ALPHA 0.50
+INFO Natives 04:48:51 Extraction Directory #1: file:/C:/Documents%20and%20Settings/Arkan%20Row/Desktop/jmonkeyplatform/jmonkeyplatform/libs/
+INFO Natives 04:48:51 Extraction Directory #2: C:\Documents and Settings\Arkan Row\jMonkeyProjects\RowTeamRacing
+INFO Natives 04:48:51 Extraction Directory #3: C:\Documents and Settings\Arkan Row\jMonkeyProjects\RowTeamRacing
+FINA Natives 04:48:51 Copied lwjgl.dll to C:\Documents and Settings\Arkan Row\jMonkeyProjects\RowTeamRacing\lwjgl.dll
+FINA Natives 04:48:51 Copied OpenAL32.dll to C:\Documents and Settings\Arkan Row\jMonkeyProjects\RowTeamRacing\OpenAL32.dll
+INFO LwjglAbstractDisplay 04:48:52 Using LWJGL 2.4.2
+INFO LwjglDisplay 04:48:52 Selected display mode: 640 x 480 x 0 @0Hz
+INFO LwjglAbstractDisplay 04:48:52 Display created.
+FINA LwjglAbstractDisplay 04:48:52 Running on thread: LWJGL Renderer Thread
+INFO LwjglAbstractDisplay 04:48:52 Adapter: nv4_disp
+INFO LwjglAbstractDisplay 04:48:52 Driver Version: 6.14.11.9621
+INFO LwjglAbstractDisplay 04:48:52 Vendor: NVIDIA Corporation
+INFO LwjglAbstractDisplay 04:48:52 OpenGL Version: 2.1.2
+INFO LwjglAbstractDisplay 04:48:52 Renderer: GeForce 7300 GT/PCI/SSE2
+INFO LwjglAbstractDisplay 04:48:52 GLSL Ver: 1.20 NVIDIA via Cg compiler
+INFO LwjglTimer 04:48:52 Timer resolution: 1000 ticks per second
+MÁS FINA LwjglRenderer 04:48:52 VTF Units: 4
+MÁS FINA LwjglRenderer 04:48:52 Texture Units: 16
+MÁS FINA LwjglRenderer 04:48:52 Vertex Uniforms: 1.024
+MÁS FINA LwjglRenderer 04:48:52 Fragment Uniforms: 2.048
+MÁS FINA LwjglRenderer 04:48:52 Vertex Attributes: 16
+MÁS FINA LwjglRenderer 04:48:52 Varying Floats: 32
+MÁS FINA LwjglRenderer 04:48:52 Subpixel Bits: 12
+MÁS FINA LwjglRenderer 04:48:52 Preferred Batch Vertex Count: 1.048.576
+MÁS FINA LwjglRenderer 04:48:52 Preferred Batch Index Count: 1.048.576
+MÁS FINA LwjglRenderer 04:48:52 Maximum Texture Resolution: 4.096
+MÁS FINA LwjglRenderer 04:48:52 Maximum CubeMap Resolution: 4.096
+MÁS FINA LwjglRenderer 04:48:52 FBO RB Max Size: 4.096
+MÁS FINA LwjglRenderer 04:48:52 FBO Max renderbuffers: 8
+MÁS FINA LwjglRenderer 04:48:52 FBO Max Samples: 8
+MÁS FINA LwjglRenderer 04:48:52 FBO Max MRT renderbuffers: 4
+MÁS FINA LwjglRenderer 04:48:52 Samples: 0
+INFO Camera 04:48:52 Camera created (W: 640, H: 480)
+INFO LwjglMouseInput 04:48:52 Mouse created.
+INFO LwjglKeyInput 04:48:52 Keyboard created.
+MÁS FINA LwjglAudioRenderer 04:48:52 Audio Vendor: OpenAL Community
+MÁS FINA LwjglAudioRenderer 04:48:52 Audio Renderer: OpenAL Soft
+MÁS FINA LwjglAudioRenderer 04:48:52 Audio Version: 1.1 ALSOFT 1.7.411
+MÁS FINA DesktopAssetManager 04:48:52 Loaded Common/MatDefs/Gui/Gui.j3md with J3MLoader
+MÁS FINA DesktopAssetManager 04:48:52 Loaded Interface/Fonts/Default.png with AWTLoader
+MÁS FINA DesktopAssetManager 04:48:52 Loaded Interface/Fonts/Default.fnt with BitmapFontLoader
+INFO Node 04:48:52 Child (BitmapFont) attached to this node (Gui Node)
+MÁS FINA DesktopAssetManager 04:48:52 Loaded Interface/Fonts/Console.png with AWTLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Interface/Fonts/Console.fnt with BitmapFontLoader
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (BitmapFont) attached to this node (Statistics View)
+INFO Node 04:48:53 Child (Statistics View) attached to this node (Gui Node)
+INFO Camera 04:48:53 Camera created (W: 512, H: 512)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Common/MatDefs/Shadow/PreShadow.j3md with J3MLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Common/MatDefs/Shadow/PostShadow.j3md with J3MLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Common/MatDefs/Light/Lighting.j3md with J3MLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Textures/Terrain/BrickWall/BrickWall.jpg with AWTLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Textures/Terrain/BrickWall/BrickWall_normal.jpg with AWTLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Textures/Terrain/BrickWall/BrickWall_height.jpg with AWTLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Textures/Terrain/BrickWall/BrickWall.j3m with J3MLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/TestTrack.obj with OBJLoader
+INFO Node 04:48:53 Child (Models/TestTrack.obj) attached to this node (null)
+INFO Node 04:48:53 Child (null) attached to this node (Root Node)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/Car.jpg with AWTLoader
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/Car.material with MaterialLoader
+INFO Node 04:48:53 Child (back_left-node) attached to this node (Models/Ferrari/Car-scene_node)
+ADVERTENCIA DesktopAssetManager 04:48:53 Cannot locate resource: Models/Ferrari/WheelBackLeft.mesh.xml
+INFO Node 04:48:53 Child (WheelBackLeft-geom-1) attached to this node (WheelBackLeft-ogremesh)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/WheelBackLeft.meshxml with MeshLoader
+INFO Node 04:48:53 Child (WheelBackLeft-ogremesh) attached to this node (back_left-entity)
+INFO Node 04:48:53 Child (back_left-entity) attached to this node (back_left-node)
+INFO Node 04:48:53 Child (back_right-node) attached to this node (Models/Ferrari/Car-scene_node)
+ADVERTENCIA DesktopAssetManager 04:48:53 Cannot locate resource: Models/Ferrari/WheelBackRight.mesh.xml
+INFO Node 04:48:53 Child (WheelBackRight-geom-2) attached to this node (WheelBackRight-ogremesh)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/WheelBackRight.meshxml with MeshLoader
+INFO Node 04:48:53 Child (WheelBackRight-ogremesh) attached to this node (back_right-entity)
+INFO Node 04:48:53 Child (back_right-entity) attached to this node (back_right-node)
+INFO Node 04:48:53 Child (car-node) attached to this node (Models/Ferrari/Car-scene_node)
+ADVERTENCIA DesktopAssetManager 04:48:53 Cannot locate resource: Models/Ferrari/Car.mesh.xml
+INFO Node 04:48:53 Child (Car-geom-3) attached to this node (Car-ogremesh)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/Car.meshxml with MeshLoader
+INFO Node 04:48:53 Child (Car-ogremesh) attached to this node (car-entity)
+INFO Node 04:48:53 Child (car-entity) attached to this node (car-node)
+INFO Node 04:48:53 Child (front_right-node) attached to this node (Models/Ferrari/Car-scene_node)
+ADVERTENCIA DesktopAssetManager 04:48:53 Cannot locate resource: Models/Ferrari/WheelFrontRight.mesh.xml
+INFO Node 04:48:53 Child (WheelFrontRight-geom-4) attached to this node (WheelFrontRight-ogremesh)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/WheelFrontRight.meshxml with MeshLoader
+INFO Node 04:48:53 Child (WheelFrontRight-ogremesh) attached to this node (front_right-entity)
+INFO Node 04:48:53 Child (front_right-entity) attached to this node (front_right-node)
+INFO Node 04:48:53 Child (front_left-node) attached to this node (Models/Ferrari/Car-scene_node)
+ADVERTENCIA DesktopAssetManager 04:48:53 Cannot locate resource: Models/Ferrari/WheelFrontLeft.mesh.xml
+INFO Node 04:48:53 Child (WheelFrontLeft-geom-5) attached to this node (WheelFrontLeft-ogremesh)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/WheelFrontLeft.meshxml with MeshLoader
+INFO Node 04:48:53 Child (WheelFrontLeft-ogremesh) attached to this node (front_left-entity)
+INFO Node 04:48:53 Child (front_left-entity) attached to this node (front_left-node)
+MÁS FINA DesktopAssetManager 04:48:53 Loaded Models/Ferrari/Car.scene with SceneLoader
+INFO Node 04:48:53 Child removed.
+INFO Node 04:48:53 Child (Car-geom-3) attached to this node (null)
+INFO Node 04:48:53 Child (null) attached to this node (null)
+INFO Node 04:48:53 Child removed.
+INFO Node 04:48:53 Child (WheelFrontRight-geom-4) attached to this node (wheel_node)
+INFO Node 04:48:53 Child (wheel_node) attached to this node (primary_wheel_node)
+INFO Node 04:48:53 Child (primary_wheel_node) attached to this node (null)
+INFO Node 04:48:53 Child (null) attached to this node (null)
+INFO Node 04:48:53 Child removed.
+INFO Node 04:48:53 Child (WheelFrontLeft-geom-5) attached to this node (wheel_node)
+INFO Node 04:48:53 Child (wheel_node) attached to this node (primary_wheel_node)
+INFO Node 04:48:53 Child (primary_wheel_node) attached to this node (null)
+INFO Node 04:48:53 Child (null) attached to this node (null)
+INFO Node 04:48:53 Child removed.
+INFO Node 04:48:53 Child (WheelBackRight-geom-2) attached to this node (wheel_node)
+INFO Node 04:48:53 Child (wheel_node) attached to this node (primary_wheel_node)
+INFO Node 04:48:53 Child (primary_wheel_node) attached to this node (null)
+INFO Node 04:48:53 Child (null) attached to this node (null)
+INFO Node 04:48:53 Child removed.
+INFO Node 04:48:53 Child (WheelBackLeft-geom-1) attached to this node (wheel_node)
+INFO Node 04:48:54 Child (wheel_node) attached to this node (primary_wheel_node)
+INFO Node 04:48:54 Child (primary_wheel_node) attached to this node (null)
+INFO Node 04:48:54 Child (null) attached to this node (null)
+INFO Node 04:48:54 Child (null) attached to this node (Root Node)
+LA MÁS FINA GLObjectManager 04:48:54 Registered: FrameBuffer 158f9d3
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=null, img=512x512-Depth]
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Shadow/PreShadow.vert with GLSLLoader
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Shadow/PreShadow.frag with GLSLLoader
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Shadow/PreShadow.vert compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Shadow/PreShadow.vert, defines, type=Vertex]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Shadow/PreShadow.frag compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Shadow/PreShadow.frag, defines, type=Fragment]
+FINA LwjglRenderer 04:48:54 shader link success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Shader[language=GLSL100, numSources=2, numUniforms=2]
+ADVERTENCIA LwjglRenderer 04:48:54 Uniform g_WorldViewMatrix is not declared in shader.
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Static, elements=2385]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Normal, usage=Static, elements=2385]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Static, elements=1590]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Static, elements=3288]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Normal, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Static, elements=348]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Static, elements=732]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Normal, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Static, elements=348]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Static, elements=732]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Normal, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Static, elements=348]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Static, elements=732]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Normal, usage=Static, elements=522]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Static, elements=348]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Static, elements=732]
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Light/Lighting.vert with GLSLLoader
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Light/Lighting.frag with GLSLLoader
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=Textures/Terrain/BrickWall/BrickWall_normal.jpg, img=256x256-BGR8]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=Textures/Terrain/BrickWall/BrickWall.jpg, img=512x512-BGR8]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=Textures/Terrain/BrickWall/BrickWall_height.jpg, img=256x256-Luminance8]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Light/Lighting.vert compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Light/Lighting.vert, defines, type=Vertex]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Light/Lighting.frag compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Light/Lighting.frag, defines, type=Fragment]
+FINA LwjglRenderer 04:48:54 shader link success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Shader[language=GLSL100, numSources=2, numUniforms=10]
+ADVERTENCIA LwjglRenderer 04:48:54 Uniform m_Shininess is not declared in shader.
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Static, elements=4290]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Normal, usage=Static, elements=4290]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Static, elements=2860]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Static, elements=6690]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=Models/Ferrari/Car.jpg, img=512x512-BGR8]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Light/Lighting.vert compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Light/Lighting.vert, defines, type=Vertex]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Light/Lighting.frag compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Light/Lighting.frag, defines, type=Fragment]
+FINA LwjglRenderer 04:48:54 shader link success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Shader[language=GLSL100, numSources=2, numUniforms=8]
+ADVERTENCIA LwjglRenderer 04:48:54 Uniform m_Shininess is not declared in shader.
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Shadow/PostShadow.vert with GLSLLoader
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/ShaderLib/Shadow.glsllib with GLSLLoader
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Shadow/PostShadow.frag with GLSLLoader
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Shadow/PostShadow.vert compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Shadow/PostShadow.vert, defines, type=Vertex]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Shadow/PostShadow.frag compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Shadow/PostShadow.frag, defines, type=Fragment]
+FINA LwjglRenderer 04:48:54 shader link success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Shader[language=GLSL100, numSources=2, numUniforms=4]
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Gui/Gui.vert with GLSLLoader
+MÁS FINA DesktopAssetManager 04:48:54 Loaded Common/MatDefs/Gui/Gui.frag with GLSLLoader
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=Interface/Fonts/Default.png, img=256x256-RGBA8]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Gui/Gui.vert compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Gui/Gui.vert, defines, type=Vertex]
+FINA LwjglRenderer 04:48:54 Common/MatDefs/Gui/Gui.frag compile success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: ShaderSource[name=Common/MatDefs/Gui/Gui.frag, defines, type=Fragment]
+FINA LwjglRenderer 04:48:54 shader link success
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Shader[language=GLSL100, numSources=2, numUniforms=4]
+ADVERTENCIA LwjglRenderer 04:48:54 Uniform m_VertexColor is not declared in shader.
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=204]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=136]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=272]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=102]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: Texture2D[name=Interface/Fonts/Console.png, img=256x256-RGBA8]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=144]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=96]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=192]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=72]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=156]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=104]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=208]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=78]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=144]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=96]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=192]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=72]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=132]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=88]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=176]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=66]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=180]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=120]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=240]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=90]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=180]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=120]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=240]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=90]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=180]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=120]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=240]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=90]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=192]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=128]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=256]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=96]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=192]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=128]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=256]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=96]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=192]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=128]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=256]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=96]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=240]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=160]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=320]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=120]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=240]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=160]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=320]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=120]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=Position, usage=Dynamic, elements=240]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=Float, type=TexCoord, usage=Dynamic, elements=160]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedByte, type=Color, usage=Dynamic, elements=320]
+LA MÁS FINA GLObjectManager 04:48:54 Registered: VertexBuffer[fmt=UnsignedShort, type=Index, usage=Dynamic, elements=120]
+FINA Application 04:49:23 Closing application: Team5Racing.Team5Racing
+INFO LwjglMouseInput 04:49:23 Mouse destroyed.
+INFO LwjglKeyInput 04:49:23 Keyboard destroyed.
+INFO LwjglAbstractDisplay 04:49:23 Display destroyed.
