@@ -1,5 +1,6 @@
 
 import Nodes.BillboardNode;
+import Nodes.GUINode;
 import com.jme3.app.SimpleBulletApplication;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -25,7 +26,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.shadow.BasicShadowRenderer;
 import com.jme3.texture.Texture.WrapMode;
 
-public class TestFancyCar extends SimpleBulletApplication implements ActionListener {
+public class T5Racing extends SimpleBulletApplication implements ActionListener {
     private T5RCamera camera;
 
     private PhysicsVehicleNode player;
@@ -36,7 +37,7 @@ public class TestFancyCar extends SimpleBulletApplication implements ActionListe
     private float accelerationValue=0;
 
     public static void main(String[] args) {
-        TestFancyCar app = new TestFancyCar();
+        T5Racing app = new T5Racing();
         app.start();
     }
 
@@ -78,6 +79,11 @@ public class TestFancyCar extends SimpleBulletApplication implements ActionListe
         camera = new T5RCamera(cam, player, cameraAnchor, 5);
 
         //Billboard trees
+        GUINode gui = new GUINode(assetManager, "Materials/GUI.j3m", new Vector2f(1, 10));
+        gui.setLocalTranslation(0, 0, 0);
+        rootNode.attachChild(gui);
+
+
         for (int i = 0; i < 20; i++) {
             BillboardNode billboard = new BillboardNode(cam, assetManager, "Materials/Billboard.j3m", new Vector2f(3, 3));
             billboard.setLocalTranslation(-5 + 10 * (i % 2), -2f, -5 * (i / 2));
