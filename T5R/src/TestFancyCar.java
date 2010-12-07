@@ -1,4 +1,5 @@
 
+import Nodes.BillboardNode;
 import com.jme3.app.SimpleBulletApplication;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -67,10 +68,21 @@ public class TestFancyCar extends SimpleBulletApplication implements ActionListe
         Node cameraAnchor = new Node();
         buildPlayer();
         player.attachChild(cameraAnchor);
-        cameraAnchor.setLocalTranslation(new Vector3f(0, 5, 10));
+        cameraAnchor.setLocalTranslation(new Vector3f(0, 2.5f, 10));
 
+        //Skybox
+        rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+
+        //Camera
         cam.setFrustumFar(50f);
         camera = new T5RCamera(cam, player, cameraAnchor, 5);
+
+        //Billboard trees
+        for (int i = 0; i < 20; i++) {
+            BillboardNode billboard = new BillboardNode(cam, assetManager, "Materials/Billboard.j3m", new Vector2f(3, 3));
+            billboard.setLocalTranslation(-5 + 10 * (i % 2), -2f, -5 * (i / 2));
+            rootNode.attachChild(billboard);
+        }
 
         DirectionalLight dl = new DirectionalLight();
         dl.setDirection(new Vector3f(-0.5f, -1f, -0.3f).normalizeLocal());
@@ -84,9 +96,9 @@ public class TestFancyCar extends SimpleBulletApplication implements ActionListe
 
     public void setupFloor() {
         Material mat = assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall.j3m");
-        mat.getTextureParam("m_DiffuseMap").getTextureValue().setWrap(WrapMode.Repeat);
-        mat.getTextureParam("m_NormalMap").getTextureValue().setWrap(WrapMode.Repeat);
-        mat.getTextureParam("m_ParallaxMap").getTextureValue().setWrap(WrapMode.Repeat);
+        //mat.getTextureParam("m_DiffuseMap").getTextureValue().setWrap(WrapMode.Repeat);
+        //mat.getTextureParam("m_NormalMap").getTextureValue().setWrap(WrapMode.Repeat);
+        //mat.getTextureParam("m_ParallaxMap").getTextureValue().setWrap(WrapMode.Repeat);
         
         Box floor = new Box(Vector3f.ZERO, 40, 1f, 40);
         floor.scaleTextureCoordinates(new Vector2f(12.0f, 12.0f));
