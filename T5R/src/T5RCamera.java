@@ -18,14 +18,12 @@ public class T5RCamera {
     Node look;
     Node follow;
     float speed;
-    Vector3f up;
 
     public T5RCamera(Camera cam, Node look, Node follow, float speed) {
         this.cam = cam;
         this.look = look;
         this.follow = follow;
         this.speed = speed;
-        this.up = new Vector3f(0, 1, 0);
     }
 
     public void update(float time) {

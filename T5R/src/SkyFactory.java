@@ -10,8 +10,8 @@ import com.jme3.scene.shape.Sphere;
 import com.jme3.texture.Texture;
 
 public class SkyFactory {
-
-    private static final Sphere sphereMesh = new Sphere(10, 10, 10, false, true);
+    final static int skySphereSamples = 10;
+    private static final Sphere sphereMesh = new Sphere(skySphereSamples, skySphereSamples, skySphereSamples, false, true);
 
     public static Spatial createSky(AssetManager assetManager, Texture texture, Vector3f normalScale, boolean sphereMap){
         Geometry sky = new Geometry("Sky", sphereMesh);
