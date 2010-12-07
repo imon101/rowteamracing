@@ -1,5 +1,5 @@
 Material Pong Rock : Common/MatDefs/Misc/SimpleTextured.j3md {
      MaterialParameters {
-        m_ColorMap : Textures/Terrain/BrickWall/BrickWall.jpg
+        m_ColorMap : Textures/Terrain/Tree/Tree.png
      }
 }
