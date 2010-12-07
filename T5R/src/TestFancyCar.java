@@ -1,5 +1,4 @@
 
-
 import com.jme3.app.SimpleBulletApplication;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
@@ -26,7 +25,8 @@ import com.jme3.shadow.BasicShadowRenderer;
 import com.jme3.texture.Texture.WrapMode;
 
 public class TestFancyCar extends SimpleBulletApplication implements ActionListener {
-    
+    private T5RCamera camera;
+
     private PhysicsVehicleNode player;
     private PhysicsVehicleWheel fr, fl, br, bl;
     private Node node_fr, node_fl, node_br, node_bl;
@@ -61,11 +61,16 @@ public class TestFancyCar extends SimpleBulletApplication implements ActionListe
             bsr.setDirection(new Vector3f(-0.5f, -0.3f, -0.3f).normalizeLocal());
             viewPort.addProcessor(bsr);
         }
-        cam.setFrustumFar(50f);
 
         setupKeys();
         setupFloor();
+        Node cameraAnchor = new Node();
         buildPlayer();
+        player.attachChild(cameraAnchor);
+        cameraAnchor.setLocalTranslation(new Vector3f(0, 5, 10));
+
+        cam.setFrustumFar(50f);
+        camera = new T5RCamera(cam, player, cameraAnchor, 5);
 
         DirectionalLight dl = new DirectionalLight();
         dl.setDirection(new Vector3f(-0.5f, -1f, -0.3f).normalizeLocal());
@@ -247,7 +252,7 @@ public class TestFancyCar extends SimpleBulletApplication implements ActionListe
 
     @Override
     public void simpleUpdate(float tpf) {
-        cam.lookAt(player.getWorldTranslation(), Vector3f.UNIT_Y);
+        //cam.lookAt(player.getWorldTranslation(), Vector3f.UNIT_Y);
+        camera.update(tpf);
     }
-
 }
