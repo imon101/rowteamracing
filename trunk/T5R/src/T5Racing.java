@@ -10,6 +10,7 @@ import com.jme3.bullet.nodes.PhysicsNode;
 import com.jme3.bullet.nodes.PhysicsVehicleNode;
 import com.jme3.bullet.nodes.PhysicsVehicleWheel;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
@@ -18,13 +19,14 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.shadow.BasicShadowRenderer;
-import com.jme3.texture.Texture.WrapMode;
+import de.lessvoid.nifty.Nifty;
 
 public class T5Racing extends SimpleBulletApplication implements ActionListener {
     private T5RCamera camera;
@@ -35,6 +37,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
     private float wheelRadius;
     private float steeringValue=0;
     private float accelerationValue=0;
+    private Nifty nifty;
 
     public static void main(String[] args) {
         T5Racing app = new T5Racing();
@@ -65,6 +68,16 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         }
 
         setupKeys();
+        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager,
+                                                          inputManager,
+                                                          audioRenderer,
+                                                          guiViewPort);
+        nifty = niftyDisplay.getNifty();
+        nifty.fromXml("src/T5RGUI.xml", "start");
+
+        // attach the nifty display to the gui view port as a processor
+        guiViewPort.addProcessor(niftyDisplay);
+
         setupFloor();
         Node cameraAnchor = new Node();
         buildPlayer();
@@ -83,8 +96,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         gui.setLocalTranslation(0, 0, 0);
         rootNode.attachChild(gui);
 
-
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             BillboardNode billboard = new BillboardNode(cam, assetManager, "Materials/Billboard.j3m", new Vector2f(3, 3));
             billboard.setLocalTranslation(-5 + 10 * (i % 2), -2f, -5 * (i / 2));
             rootNode.attachChild(billboard);
@@ -97,6 +109,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         dl = new DirectionalLight();
         dl.setDirection(new Vector3f(0.5f, -0.1f, 0.3f).normalizeLocal());
         rootNode.addLight(dl);
+        inputManager.setCursorVisible(true);
     }
 
 
@@ -106,7 +119,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         //mat.getTextureParam("m_NormalMap").getTextureValue().setWrap(WrapMode.Repeat);
         //mat.getTextureParam("m_ParallaxMap").getTextureValue().setWrap(WrapMode.Repeat);
         
-        Box floor = new Box(Vector3f.ZERO, 40, 1f, 40);
+        Box floor = new Box(Vector3f.ZERO, 400, 1f, 400);
         floor.scaleTextureCoordinates(new Vector2f(12.0f, 12.0f));
         Geometry floorGeom = new Geometry("Floor", floor);
         floorGeom.setShadowMode(ShadowMode.Recieve);
@@ -165,6 +178,8 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         player.setSuspensionStiffness(stiffness);
         player.setMaxSuspensionForce(10000);
 
+        
+        //renderer.getF
         //Create four wheels and add them at their locations
         //note that our fancy car actually goes backwards..
         Vector3f wheelDirection = new Vector3f(0,-1,0);
