@@ -1,0 +1,5 @@
+Material Pong Rock : Common/MatDefs/Gui/Gui.j3md {
+     MaterialParameters {
+        m_Texture : Textures/Terrain/Tree/Tree.png
+     }
+}
