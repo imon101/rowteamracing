@@ -20,13 +20,22 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.shadow.BasicShadowRenderer;
+import com.jme3.texture.FrameBuffer;
+import com.sun.java.swing.plaf.motif.MotifBorders.FrameBorder;
 import de.lessvoid.nifty.Nifty;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 public class T5Racing extends SimpleBulletApplication implements ActionListener {
     private T5RCamera camera;
@@ -51,12 +60,14 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         inputManager.addMapping("Downs", new KeyTrigger(KeyInput.KEY_J));
         inputManager.addMapping("Space", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("Reset", new KeyTrigger(KeyInput.KEY_RETURN));
+        inputManager.addMapping("PrintScreen", new KeyTrigger(KeyInput.KEY_P));
         inputManager.addListener(this,"Lefts");
         inputManager.addListener(this,"Rights");
         inputManager.addListener(this,"Ups");
         inputManager.addListener(this,"Downs");
         inputManager.addListener(this,"Space");
         inputManager.addListener(this,"Reset");
+        inputManager.addListener(this,"PrintScreen");
     }
 
     @Override
@@ -178,8 +189,6 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         player.setSuspensionStiffness(stiffness);
         player.setMaxSuspensionForce(10000);
 
-        
-        //renderer.getF
         //Create four wheels and add them at their locations
         //note that our fancy car actually goes backwards..
         Vector3f wheelDirection = new Vector3f(0,-1,0);
@@ -279,6 +288,27 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
                 player.setAngularVelocity(Vector3f.ZERO);
                 player.resetSuspension();
             } else {
+            }
+        } else if (binding.equals("PrintScreen")) {
+            if (value) {
+                System.out.println("Print Screen");
+//                List<ViewPort> viewports = renderManager.getMainViews();
+
+//                if (viewports.size() < 1) {
+//                    System.out.println("No viewport available");
+//                    return;
+//                }
+
+                //We only use one viewport, so... no problem here
+//                ViewPort vp = viewports.get(0);
+
+//                FrameBuffer frameBuffer =  vp.getOutputFrameBuffer();
+//                renderManager.renderViewPortRaw(vp);
+
+//                if (frameBuffer == null)
+//                    System.out.println("tirame la re goma");
+//                ByteBuffer byteBuffer = ByteBuffer.allocate(4 * frameBuffer.getWidth() * frameBuffer.getHeight());
+//                renderer.readFrameBuffer(frameBuffer, byteBuffer);
             }
         }
     }
