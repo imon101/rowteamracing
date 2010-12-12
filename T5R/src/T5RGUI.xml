@@ -7,7 +7,7 @@
                 <interact onClick="clickThing()"/>
                 <effect>
                     <onStartScreen name="fade" start="#ff" end="#00"
-                    length="3000" startDelay="2000" neverStopRendering="true"/>
+                    length="3000" startDelay="5000" neverStopRendering="true"/>
                     <onEndScreen name="fade" start="#00" end="#ff"
                     length="3000" startDelay="000" />
                 </effect>

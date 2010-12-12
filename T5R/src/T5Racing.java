@@ -1,74 +1,38 @@
 
 import Nodes.BillboardNode;
+import Nodes.Car;
 import Nodes.GUINode;
 import com.jme3.app.SimpleBulletApplication;
-import com.jme3.bounding.BoundingBox;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
-import com.jme3.bullet.nodes.PhysicsNode;
-import com.jme3.bullet.nodes.PhysicsVehicleNode;
-import com.jme3.bullet.nodes.PhysicsVehicleWheel;
-import com.jme3.input.KeyInput;
-import com.jme3.input.MouseInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
-import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
+import com.jme3.material.RenderState.BlendMode;
+import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.niftygui.NiftyJmeDisplay;
-import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.shadow.BasicShadowRenderer;
-import com.jme3.texture.FrameBuffer;
-import com.sun.java.swing.plaf.motif.MotifBorders.FrameBorder;
 import de.lessvoid.nifty.Nifty;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayInputStream;
-import java.nio.ByteBuffer;
-import java.util.List;
 
 
 import jme3tools.converters.ImageToAwt;
-import com.jme3.app.SimpleBulletApplication;
 import com.jme3.bounding.BoundingBox;
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.nodes.PhysicsCharacterNode;
 import com.jme3.bullet.nodes.PhysicsNode;
-import com.jme3.bullet.nodes.PhysicsVehicleNode;
-import com.jme3.collision.CollisionResult;
-import com.jme3.collision.CollisionResults;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
-import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Cylinder;
-import com.jme3.scene.shape.Sphere;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
@@ -83,13 +47,12 @@ import java.util.List;
 public class T5Racing extends SimpleBulletApplication implements ActionListener {
     private T5RCamera camera;
 
-    private PhysicsVehicleNode player;
-    private PhysicsVehicleWheel fr, fl, br, bl;
-    private Node node_fr, node_fl, node_br, node_bl;
-    private float wheelRadius;
     private float steeringValue=0;
     private float accelerationValue=0;
+
+    private Car car;
     private Nifty nifty;
+    private ScreenCapturer capturer;
 
      TerrainQuad terrain;
     Node terrainPhysicsNode;
@@ -106,28 +69,6 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         T5Racing app = new T5Racing();
         app.start();
     }
-
-/*
-    private void setupKeys2() {
-        flyCam.setMoveSpeed(50);
-        inputManager.addMapping("wireframe", new KeyTrigger(KeyInput.KEY_T));
-        inputManager.addListener(actionListener, "wireframe");
-        inputManager.addMapping("Lefts", new KeyTrigger(KeyInput.KEY_H));
-        inputManager.addMapping("Rights", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("Ups", new KeyTrigger(KeyInput.KEY_U));
-        inputManager.addMapping("Downs", new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("Space", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addMapping("Reset", new KeyTrigger(KeyInput.KEY_RETURN));
-        inputManager.addListener(actionListener, "Lefts");
-        inputManager.addListener(actionListener, "Rights");
-        inputManager.addListener(actionListener, "Ups");
-        inputManager.addListener(actionListener, "Downs");
-        inputManager.addListener(actionListener, "Space");
-        inputManager.addListener(actionListener, "Reset");
-        inputManager.addMapping("shoot", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-        inputManager.addListener(actionListener, "shoot");
-    }*/
-
 
     private void setupKeys() {
          flyCam.setMoveSpeed(50);
@@ -169,10 +110,12 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
 
         Node cameraAnchor = new Node();
         buildTerrain();
-        buildPlayer();
-        //setupFloor();
+        car = new Car(assetManager);
+        rootNode.attachChild(car);
+        getPhysicsSpace().add(car);
+        car.setLocalTranslation(new Vector3f(150,50,-20));
 
-        player.attachChild(cameraAnchor);
+        car.attachChild(cameraAnchor);
         cameraAnchor.setLocalTranslation(new Vector3f(0, 2f, 8));
 
         //Skybox
@@ -180,18 +123,23 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
 
         //Camera
         cam.setFrustumFar(150f);
-        camera = new T5RCamera(cam, player, cameraAnchor, 5);
+        camera = new T5RCamera(cam, car, cameraAnchor, 5);
 
-     /*   //Billboard trees
         GUINode gui = new GUINode(assetManager, "Materials/GUI.j3m", new Vector2f(1, 10));
         gui.setLocalTranslation(0, 0, 0);
         rootNode.attachChild(gui);
 
-        for (int i = 0; i < 8; i++) {
-            BillboardNode billboard = new BillboardNode(cam, assetManager, "Materials/Billboard.j3m", new Vector2f(3, 3));
-            billboard.setLocalTranslation(-5 + 10 * (i % 2), -2f, -5 * (i / 2));
+        //Billboard trees
+        Material mat = assetManager.loadMaterial("Materials/Billboard.j3m");
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off); // show back side too
+        mat.getAdditionalRenderState().setAlphaTest(true); // alpha on each face
+
+        for (int i = 0; i < 80; i++) {
+            BillboardNode billboard = new BillboardNode(cam, assetManager, mat, new Vector2f(3, 3));
+            billboard.setLocalTranslation(-5 + 10 * (i % 2), 4f, -5 * (i / 2));
             rootNode.attachChild(billboard);
-        }*/
+        }
 
         DirectionalLight dl = new DirectionalLight();
         dl.setDirection(new Vector3f(-0.5f, -1f, -0.3f).normalizeLocal());
@@ -201,6 +149,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         dl.setDirection(new Vector3f(0.5f, -0.1f, 0.3f).normalizeLocal());
         rootNode.addLight(dl);
         inputManager.setCursorVisible(true);
+        capturer = new ScreenCapturer(renderManager, renderer, rootNode, settings.getWidth(), settings.getHeight());
     }
 
 
@@ -248,7 +197,6 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
             heightmap.load();
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
 
         /*
@@ -308,105 +256,6 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         getCamera().setDirection(new Vector3f(-1, 0, -1));
     }
 
-
-
-    private void buildPlayer() {
-        float stiffness=120.0f;//200=f1 car
-        float compValue=0.2f; //(lower than damp!)
-        float dampValue=0.3f;
-        final float mass = 400;//400
-
-        Spatial car = assetManager.loadModel("Models/Ferrari/Car.scene");
-        Node carNode = (Node) car;
-        final Geometry chasis = findGeom(carNode, "Car");
-        BoundingBox box = (BoundingBox) chasis.getModelBound();
-
-        final Vector3f extent = box.getExtent(null);
-
-        // put chasis in center, so that physics box matches up with it
-        // also remove from parent to avoid transform issues
-        chasis.removeFromParent();
-//        chasis.setLocalTranslation(Vector3f.UNIT_Y);
-        chasis.setShadowMode(ShadowMode.Cast);
-
-        CompoundCollisionShape compoundShape=new CompoundCollisionShape();
-        compoundShape.addChildShape(new BoxCollisionShape(extent), Vector3f.UNIT_Y);
-
-        player = new PhysicsVehicleNode(chasis, compoundShape, mass);
-
-        //setting default values for wheels
-        player.setSuspensionCompression(compValue*2.0f*FastMath.sqrt(stiffness));
-        player.setSuspensionDamping(dampValue*2.0f*FastMath.sqrt(stiffness));
-        player.setSuspensionStiffness(stiffness);
-        player.setMaxSuspensionForce(10000);
-
-
-        //renderer.getF
-        //Create four wheels and add them at their locations
-        //note that our fancy car actually goes backwards..
-        Vector3f wheelDirection = new Vector3f(0,-1,0);
-        Vector3f wheelAxle = new Vector3f(-1,0,0);
-
-        Geometry wheel_fr = findGeom(carNode, "WheelFrontRight");
-        wheel_fr.removeFromParent();
-        wheel_fr.center();
-        node_fr = new Node("wheel_node");
-        node_fr.setShadowMode(ShadowMode.Cast);
-        node_fr.attachChild(wheel_fr);
-        Node primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_fr);
-        box = (BoundingBox) wheel_fr.getModelBound();
-        wheelRadius = box.getYExtent();
-        float back_wheel_h = (wheelRadius * 1.7f)-1f;
-        float front_wheel_h = (wheelRadius * 1.9f)-1f;
-        player.addWheel(primaryNode, box.getCenter().add(0, -front_wheel_h, 0),
-                wheelDirection, wheelAxle, 0.2f, wheelRadius, true);
-
-
-        Geometry wheel_fl = findGeom(carNode, "WheelFrontLeft");
-        wheel_fl.removeFromParent();
-        wheel_fl.center();
-        node_fl = new Node("wheel_node");
-        node_fl.setShadowMode(ShadowMode.Cast);
-        node_fl.attachChild(wheel_fl);
-        primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_fl);
-        box = (BoundingBox) wheel_fl.getModelBound();
-        player.addWheel(primaryNode, box.getCenter().add(0, -front_wheel_h, 0),
-                        wheelDirection, wheelAxle, 0.2f, wheelRadius, true);
-
-        Geometry wheel_br = findGeom(carNode, "WheelBackRight");
-        wheel_br.removeFromParent();
-        wheel_br.center();
-        node_br = new Node("wheel_node");
-        node_br.setShadowMode(ShadowMode.Cast);
-        node_br.attachChild(wheel_br);
-        primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_br);
-        box = (BoundingBox) wheel_br.getModelBound();
-        player.addWheel(primaryNode, box.getCenter().add(0, -back_wheel_h, 0),
-                        wheelDirection, wheelAxle, 0.2f, wheelRadius, false);
-
-        Geometry wheel_bl = findGeom(carNode, "WheelBackLeft");
-        wheel_bl.removeFromParent();
-        wheel_bl.center();
-        node_bl = new Node("wheel_node");
-        node_bl.setShadowMode(ShadowMode.Cast);
-        node_bl.attachChild(wheel_bl);
-        primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_bl);
-        box = (BoundingBox) wheel_bl.getModelBound();
-        player.addWheel(primaryNode, box.getCenter().add(0, -back_wheel_h, 0),
-                        wheelDirection, wheelAxle, 0.2f, wheelRadius, false);
-
-//        player.attachDebugShape(assetManager);
-        player.getWheel(2).setFrictionSlip(4);
-        player.getWheel(3).setFrictionSlip(4);
-        rootNode.attachChild(player);
-        getPhysicsSpace().add(player);
-        player.setLocalTranslation(new Vector3f(150,50,-20));
-    }
-
     public void setupFloor() {
         Material mat = assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall.j3m");
         //mat.getTextureParam("m_DiffuseMap").getTextureValue().setWrap(WrapMode.Repeat);
@@ -441,100 +290,6 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         }
         return null;
     }
-/*
-    private void buildPlayer() {
-        float stiffness=120.0f;//200=f1 car
-        float compValue=0.2f; //(lower than damp!)
-        float dampValue=0.3f;
-        final float mass = 400;
-
-        Spatial car = assetManager.loadModel("Models/Ferrari/Car.scene");
-        Node carNode = (Node) car;
-        final Geometry chasis = findGeom(carNode, "Car");
-        BoundingBox box = (BoundingBox) chasis.getModelBound();
-
-        final Vector3f extent = box.getExtent(null);
-
-        // put chasis in center, so that physics box matches up with it
-        // also remove from parent to avoid transform issues
-        chasis.removeFromParent();
-//        chasis.setLocalTranslation(Vector3f.UNIT_Y);
-        chasis.setShadowMode(ShadowMode.Cast);
-
-        CompoundCollisionShape compoundShape=new CompoundCollisionShape();
-        compoundShape.addChildShape(new BoxCollisionShape(extent), Vector3f.UNIT_Y);
-
-        player = new PhysicsVehicleNode(chasis, compoundShape, mass);
-
-        //setting default values for wheels
-        player.setSuspensionCompression(compValue*2.0f*FastMath.sqrt(stiffness));
-        player.setSuspensionDamping(dampValue*2.0f*FastMath.sqrt(stiffness));
-        player.setSuspensionStiffness(stiffness);
-        player.setMaxSuspensionForce(10000);
-
-        //Create four wheels and add them at their locations
-        //note that our fancy car actually goes backwards..
-        Vector3f wheelDirection = new Vector3f(0,-1,0);
-        Vector3f wheelAxle = new Vector3f(-1,0,0);
-
-        Geometry wheel_fr = findGeom(carNode, "WheelFrontRight");
-        wheel_fr.removeFromParent();
-        wheel_fr.center();
-        node_fr = new Node("wheel_node");
-        node_fr.setShadowMode(ShadowMode.Cast);
-        node_fr.attachChild(wheel_fr);
-        Node primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_fr);
-        box = (BoundingBox) wheel_fr.getModelBound();
-        wheelRadius = box.getYExtent();
-        float back_wheel_h = (wheelRadius * 1.7f)-1f;
-        float front_wheel_h = (wheelRadius * 1.9f)-1f;
-        player.addWheel(primaryNode, box.getCenter().add(0, -front_wheel_h, 0),
-                wheelDirection, wheelAxle, 0.2f, wheelRadius, true);
-
-
-        Geometry wheel_fl = findGeom(carNode, "WheelFrontLeft");
-        wheel_fl.removeFromParent();
-        wheel_fl.center();
-        node_fl = new Node("wheel_node");
-        node_fl.setShadowMode(ShadowMode.Cast);
-        node_fl.attachChild(wheel_fl);
-        primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_fl);
-        box = (BoundingBox) wheel_fl.getModelBound();
-        player.addWheel(primaryNode, box.getCenter().add(0, -front_wheel_h, 0),
-                        wheelDirection, wheelAxle, 0.2f, wheelRadius, true);
-
-        Geometry wheel_br = findGeom(carNode, "WheelBackRight");
-        wheel_br.removeFromParent();
-        wheel_br.center();
-        node_br = new Node("wheel_node");
-        node_br.setShadowMode(ShadowMode.Cast);
-        node_br.attachChild(wheel_br);
-        primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_br);
-        box = (BoundingBox) wheel_br.getModelBound();
-        player.addWheel(primaryNode, box.getCenter().add(0, -back_wheel_h, 0),
-                        wheelDirection, wheelAxle, 0.2f, wheelRadius, false);
-
-        Geometry wheel_bl = findGeom(carNode, "WheelBackLeft");
-        wheel_bl.removeFromParent();
-        wheel_bl.center();
-        node_bl = new Node("wheel_node");
-        node_bl.setShadowMode(ShadowMode.Cast);
-        node_bl.attachChild(wheel_bl);
-        primaryNode = new Node("primary_wheel_node");
-        primaryNode.attachChild(node_bl);
-        box = (BoundingBox) wheel_bl.getModelBound();
-        player.addWheel(primaryNode, box.getCenter().add(0, -back_wheel_h, 0),
-                        wheelDirection, wheelAxle, 0.2f, wheelRadius, false);
-
-//        player.attachDebugShape(assetManager);
-        player.getWheel(2).setFrictionSlip(4);
-        player.getWheel(3).setFrictionSlip(4);
-        rootNode.attachChild(player);
-        getPhysicsSpace().add(player);
-    }*/
 
     public void onAction(String binding, boolean value, float tpf) {
         if (binding.equals("Lefts")) {
@@ -542,13 +297,13 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
                 steeringValue+=.5f;
             else
                 steeringValue+=-.5f;
-            player.steer(steeringValue);
+            car.steer(steeringValue);
         } else if (binding.equals("Rights")) {
             if(value)
                 steeringValue+=-.5f;
             else
                 steeringValue+=.5f;
-            player.steer(steeringValue);
+            car.steer(steeringValue);
         }
         //note that our fancy car actually goes backwards..
         else if (binding.equals("Ups")) {
@@ -556,42 +311,25 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
                 accelerationValue-=800;
             else
                 accelerationValue+=800;
-            player.accelerate(accelerationValue);
+            car.accelerate(accelerationValue);
         } else if (binding.equals("Downs")) {
             if(value)
-                player.brake(40f);
+                car.brake(40f);
             else
-                player.brake(0f);
+                car.brake(0f);
         } else if (binding.equals("Reset")) {
             if (value) {
                 System.out.println("Reset");
-                player.setLocalTranslation(0, 0, 0);
-                player.setLocalRotation(new Quaternion());
-                player.setLinearVelocity(Vector3f.ZERO);
-                player.setAngularVelocity(Vector3f.ZERO);
-                player.resetSuspension();
+                car.setLocalTranslation(0, 0, 0);
+                car.setLocalRotation(new Quaternion());
+                car.setLinearVelocity(Vector3f.ZERO);
+                car.setAngularVelocity(Vector3f.ZERO);
+                car.resetSuspension();
             } else {
             }
         } else if (binding.equals("PrintScreen")) {
             if (value) {
-                System.out.println("Print Screen");
-//                List<ViewPort> viewports = renderManager.getMainViews();
-
-//                if (viewports.size() < 1) {
-//                    System.out.println("No viewport available");
-//                    return;
-//                }
-
-                //We only use one viewport, so... no problem here
-//                ViewPort vp = viewports.get(0);
-
-//                FrameBuffer frameBuffer =  vp.getOutputFrameBuffer();
-//                renderManager.renderViewPortRaw(vp);
-
-//                if (frameBuffer == null)
-//                    System.out.println("tirame la re goma");
-//                ByteBuffer byteBuffer = ByteBuffer.allocate(4 * frameBuffer.getWidth() * frameBuffer.getHeight());
-//                renderer.readFrameBuffer(frameBuffer, byteBuffer);
+                capturer.capture(cam);
             }
         }
     }

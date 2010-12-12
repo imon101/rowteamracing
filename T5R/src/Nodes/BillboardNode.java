@@ -30,7 +30,7 @@ public class BillboardNode extends Node {
     private Vector3f look;
     private Vector3f left;
 
-    public BillboardNode(Camera camera, AssetManager assetManager, String material, Vector2f size) {
+    public BillboardNode(Camera camera, AssetManager assetManager, Material mat, Vector2f size) {
         this.camera = camera;
 
         orientation = new Matrix3f();
@@ -40,12 +40,7 @@ public class BillboardNode extends Node {
         Box plane = new Box(Vector3f.ZERO, size.x, -size.y, billboardThickness);
         Geometry geom = new Geometry("Billboard", plane);
         geom.setShadowMode(ShadowMode.Off);
-        Material mat = assetManager.loadMaterial(material);
-        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-        mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off); // show back side too
-        mat.getAdditionalRenderState().setAlphaTest(true); // alpha on each face
         geom.setQueueBucket(RenderQueue.Bucket.Transparent); // IMPORTANT
-
 
         geom.setMaterial(mat);
         attachChild(geom);
