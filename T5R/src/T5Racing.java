@@ -1,4 +1,5 @@
 
+import Controllers.CarController;
 import Nodes.BillboardNode;
 import Nodes.Car;
 import Nodes.GUINode;
@@ -46,14 +47,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class T5Racing extends SimpleApplication implements ActionListener {
+public class T5Racing extends SimpleApplication {
     private BulletAppState bulletAppState;
     private T5RCamera camera;
 
-    private float steeringValue=0;
-    private float accelerationValue=0;
-
     private Car car;
+    private CarController carController;
+
     private Nifty nifty;
     private ScreenCapturer capturer;
 
@@ -73,25 +73,6 @@ public class T5Racing extends SimpleApplication implements ActionListener {
         app.start();
     }
 
-    private void setupKeys() {
-         flyCam.setMoveSpeed(50);
-
-        inputManager.addMapping("Lefts", new KeyTrigger(KeyInput.KEY_H));
-        inputManager.addMapping("Rights", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("Ups", new KeyTrigger(KeyInput.KEY_U));
-        inputManager.addMapping("Downs", new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("Space", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addMapping("Reset", new KeyTrigger(KeyInput.KEY_RETURN));
-        inputManager.addMapping("PrintScreen", new KeyTrigger(KeyInput.KEY_P));
-        inputManager.addListener(this,"Lefts");
-        inputManager.addListener(this,"Rights");
-        inputManager.addListener(this,"Ups");
-        inputManager.addListener(this,"Downs");
-        inputManager.addListener(this,"Space");
-        inputManager.addListener(this,"Reset");
-        inputManager.addListener(this,"PrintScreen");
-    }
-
     @Override
     public void simpleInitApp() {
         bulletAppState = new BulletAppState();
@@ -103,7 +84,6 @@ public class T5Racing extends SimpleApplication implements ActionListener {
             viewPort.addProcessor(bsr);
         }
 
-        setupKeys();
         NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager,
                                                           inputManager,
                                                           audioRenderer,
@@ -116,13 +96,15 @@ public class T5Racing extends SimpleApplication implements ActionListener {
 
         Node cameraAnchor = new Node();
         buildTerrain();
+
+        //Set up the car
         car = new Car(assetManager);
         rootNode.attachChild(car);
         bulletAppState.getPhysicsSpace().add(car);
         car.setLocalTranslation(new Vector3f(150,50,-20));
-
         car.attachChild(cameraAnchor);
         cameraAnchor.setLocalTranslation(new Vector3f(0, 2f, 8));
+        carController = new CarController(inputManager, car);
 
         //Skybox
         rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
@@ -155,7 +137,8 @@ public class T5Racing extends SimpleApplication implements ActionListener {
         dl.setDirection(new Vector3f(0.5f, -0.1f, 0.3f).normalizeLocal());
         rootNode.addLight(dl);
         inputManager.setCursorVisible(true);
-        capturer = new ScreenCapturer(renderManager, renderer, rootNode, settings.getWidth(), settings.getHeight());
+        capturer = new ScreenCapturer(inputManager, renderManager, renderer,
+                rootNode, settings.getWidth(), settings.getHeight(), cam);
     }
 
 
@@ -290,59 +273,15 @@ public class T5Racing extends SimpleApplication implements ActionListener {
                 if (result != null)
                     return result;
             }
-        }else if (spatial instanceof Geometry){
+        } else if (spatial instanceof Geometry){
             if (spatial.getName().startsWith(name))
                 return (Geometry) spatial;
         }
         return null;
     }
 
-    public void onAction(String binding, boolean value, float tpf) {
-        if (binding.equals("Lefts")) {
-            if(value)
-                steeringValue+=.5f;
-            else
-                steeringValue+=-.5f;
-            car.steer(steeringValue);
-        } else if (binding.equals("Rights")) {
-            if(value)
-                steeringValue+=-.5f;
-            else
-                steeringValue+=.5f;
-            car.steer(steeringValue);
-        }
-        //note that our fancy car actually goes backwards..
-        else if (binding.equals("Ups")) {
-            if(value)
-                accelerationValue-=800;
-            else
-                accelerationValue+=800;
-            car.accelerate(accelerationValue);
-        } else if (binding.equals("Downs")) {
-            if(value)
-                car.brake(40f);
-            else
-                car.brake(0f);
-        } else if (binding.equals("Reset")) {
-            if (value) {
-                System.out.println("Reset");
-                car.setLocalTranslation(0, 0, 0);
-                car.setLocalRotation(new Quaternion());
-                car.setLinearVelocity(Vector3f.ZERO);
-                car.setAngularVelocity(Vector3f.ZERO);
-                car.resetSuspension();
-            } else {
-            }
-        } else if (binding.equals("PrintScreen")) {
-            if (value) {
-                capturer.capture(cam);
-            }
-        }
-    }
-
     @Override
     public void simpleUpdate(float tpf) {
-        //cam.lookAt(player.getWorldTranslation(), Vector3f.UNIT_Y);
         camera.update(tpf);
     }
 }
