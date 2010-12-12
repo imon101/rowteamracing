@@ -1,4 +1,8 @@
 
+import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.post.SceneProcessor;
@@ -31,23 +35,27 @@ import javax.imageio.ImageIO;
  *
  * @author ArkanRow
  */
-public class ScreenCapturer implements SceneProcessor {
+public class ScreenCapturer implements SceneProcessor, ActionListener {
     private int width, height;
     private FrameBuffer offBuffer;
     private ViewPort offView;
-    private Texture2D offTex;
     private Camera offCamera;
     private Renderer renderer;
 
     private ByteBuffer cpuBuf;
     private byte[] cpuArray;
-    private BufferedImage image;
+    private final BufferedImage image;
     private boolean capture = false;
+    InputManager inputManager;
+    private Camera targetCam;
 
-    public ScreenCapturer(RenderManager rm, Renderer renderer, Node scene, int width, int height) {
+    public ScreenCapturer(InputManager im, RenderManager rm, Renderer renderer, Node scene,
+            int width, int height, Camera targetCam) {
         this.width = width;
         this.height = height;
         this.renderer = renderer;
+        this.inputManager = im;
+        this.targetCam = targetCam;
 
         cpuBuf = BufferUtils.createByteBuffer(width * height * 4);
         cpuArray = new byte[width * height * 4];
@@ -81,6 +89,11 @@ public class ScreenCapturer implements SceneProcessor {
 
         // attach the scene to the viewport to be rendered
         offView.attachScene(scene);
+
+        //Setup the print screen key and event
+        inputManager = im;
+        im.addMapping("PrintScreen", new KeyTrigger(KeyInput.KEY_P));
+        im.addListener(this, "PrintScreen");
     }
 
     public void capture(Camera cam) {
@@ -152,4 +165,12 @@ public class ScreenCapturer implements SceneProcessor {
     }
 
     public void cleanup() {}
+
+    public void onAction(String binding, boolean value, float tpf) {
+        if (binding.equals("PrintScreen")) {
+            if (value) {
+                capture(targetCam);
+            }
+        }
+    }
 }
