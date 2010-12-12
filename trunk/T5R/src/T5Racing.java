@@ -1,8 +1,10 @@
 
 import Controllers.CarController;
+import Controllers.GameController;
 import Nodes.BillboardNode;
 import Nodes.Car;
 import Nodes.GUINode;
+import Nodes.HUDNode;
 import de.lessvoid.nifty.Nifty;
 import jme3tools.converters.ImageToAwt;
 import com.jme3.app.SimpleApplication;
@@ -21,6 +23,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -56,7 +59,7 @@ public class T5Racing extends SimpleApplication {
     PointLight pl;
     Geometry lightMdl;
     Geometry collisionMarker;
-
+    GameController gameController;
 
     public static void main(String[] args) {
         T5Racing app = new T5Racing();
@@ -91,7 +94,6 @@ public class T5Racing extends SimpleApplication {
         car = new Car(assetManager);
         rootNode.attachChild(car);
         bulletAppState.getPhysicsSpace().add(car);
-        car.setLocalTranslation(new Vector3f(150,50,-20));
         car.attachChild(cameraAnchor);
         cameraAnchor.setLocalTranslation(new Vector3f(0, 2f, 8));
         carController = new CarController(inputManager, car);
@@ -130,6 +132,11 @@ public class T5Racing extends SimpleApplication {
         capturer = new ScreenCapturer(inputManager, renderManager, renderer,
                 rootNode, settings.getWidth(), settings.getHeight(), cam);
         capturer.setup();
+
+        gameController = new GameController(5, 2, 2, 60, 10, 3, new HUDNode(),
+                new Vector3f(150,1,-20), Quaternion.IDENTITY, car,
+                inputManager);
+        gameController.setup();
     }
 
 
@@ -240,5 +247,6 @@ public class T5Racing extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         camera.update(tpf);
+        gameController.update(tpf);
     }
 }
