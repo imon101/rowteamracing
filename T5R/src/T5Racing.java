@@ -2,6 +2,7 @@
 import Nodes.BillboardNode;
 import Nodes.Car;
 import Nodes.GUINode;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.SimpleBulletApplication;
 import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.material.RenderState.BlendMode;
@@ -16,6 +17,7 @@ import de.lessvoid.nifty.Nifty;
 
 import jme3tools.converters.ImageToAwt;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.nodes.PhysicsCharacterNode;
 import com.jme3.bullet.nodes.PhysicsNode;
@@ -44,7 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class T5Racing extends SimpleBulletApplication implements ActionListener {
+public class T5Racing extends SimpleApplication implements ActionListener {
+    private BulletAppState bulletAppState;
     private T5RCamera camera;
 
     private float steeringValue=0;
@@ -91,6 +94,9 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
 
     @Override
     public void simpleInitApp() {
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+
         if (settings.getRenderer().startsWith("LWJGL")){
             BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 512);
             bsr.setDirection(new Vector3f(-0.5f, -0.3f, -0.3f).normalizeLocal());
@@ -112,7 +118,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         buildTerrain();
         car = new Car(assetManager);
         rootNode.attachChild(car);
-        getPhysicsSpace().add(car);
+        bulletAppState.getPhysicsSpace().add(car);
         car.setLocalTranslation(new Vector3f(150,50,-20));
 
         car.attachChild(cameraAnchor);
@@ -222,7 +228,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         TerrainPhysicsShapeFactory factory = new TerrainPhysicsShapeFactory();
         terrainPhysicsNode = factory.createPhysicsMesh(terrain);
         rootNode.attachChild(terrainPhysicsNode);
-        getPhysicsSpace().addAll(terrainPhysicsNode);
+        bulletAppState.getPhysicsSpace().addAll(terrainPhysicsNode);
 
 
 
@@ -237,14 +243,14 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
             physicsSphere.setLocalTranslation(new Vector3f(x, 100 + y, z));
             physicsSphere.attachDebugShape(getAssetManager());
             rootNode.attachChild(physicsSphere);
-            getPhysicsSpace().add(physicsSphere);
+            bulletAppState.getPhysicsSpace().add(physicsSphere);
         }
 
         PhysicsCharacterNode character = new PhysicsCharacterNode(new SphereCollisionShape(1), 0.1f);
         character.setLocalTranslation(new Vector3f(0, 100, 0));
         character.attachDebugShape(assetManager);
         rootNode.attachChild(character);
-        getPhysicsSpace().add(character);
+        bulletAppState.getPhysicsSpace().add(character);
 
         DirectionalLight dl = new DirectionalLight();
         dl.setDirection(new Vector3f(1, -0.5f, -0.1f).normalizeLocal());
@@ -272,7 +278,7 @@ public class T5Racing extends SimpleBulletApplication implements ActionListener 
         tb.setLocalTranslation(new Vector3f(0f,-6,0f));
         tb.updateGeometricState();
         rootNode.attachChild(tb);
-        getPhysicsSpace().add(tb);
+        bulletAppState.getPhysicsSpace().add(tb);
     }
 
     private Geometry findGeom(Spatial spatial, String name){
