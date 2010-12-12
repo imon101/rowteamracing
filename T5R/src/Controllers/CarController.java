@@ -72,16 +72,6 @@ public class CarController implements ActionListener {
                 car.brake(40f);
             else
                 car.brake(0f);
-        } else if (binding.equals("Reset")) {
-            if (value) {
-                System.out.println("Reset");
-                car.setLocalTranslation(0, 0, 0);
-                car.setLocalRotation(new Quaternion());
-                car.setLinearVelocity(Vector3f.ZERO);
-                car.setAngularVelocity(Vector3f.ZERO);
-                car.resetSuspension();
-            } else {
-            }
         }
     }
 }

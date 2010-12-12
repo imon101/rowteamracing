@@ -120,9 +120,6 @@ public class Car extends PhysicsVehicleNode {
 
         this.getWheel(2).setFrictionSlip(4);
         this.getWheel(3).setFrictionSlip(4);
-//        rootNode.attachChild(player);
-//        getPhysicsSpace().add(player);
-//        player.setLocalTranslation(new Vector3f(150,50,-20));
     }
 
         private Geometry findGeom(Spatial spatial, String name){
