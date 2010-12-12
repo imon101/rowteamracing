@@ -193,6 +193,7 @@ public class T5Racing extends SimpleApplication {
          * terrain will be 513x513. It uses the heightmap we created to generate the height values.
          */
         terrain = new TerrainQuad("terrain", 65, 513, heightmap.getHeightMap());
+        terrain.setShadowMode(ShadowMode.Receive);
         List<Camera> cameras = new ArrayList<Camera>();
         cameras.add(getCamera());
         TerrainLodControl control = new TerrainLodControl(terrain, cameras);
