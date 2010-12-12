@@ -3,34 +3,24 @@ import Controllers.CarController;
 import Nodes.BillboardNode;
 import Nodes.Car;
 import Nodes.GUINode;
+import de.lessvoid.nifty.Nifty;
+import jme3tools.converters.ImageToAwt;
 import com.jme3.app.SimpleApplication;
-import com.jme3.app.SimpleBulletApplication;
-import com.jme3.bullet.collision.shapes.MeshCollisionShape;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.shadow.BasicShadowRenderer;
-import de.lessvoid.nifty.Nifty;
-
-
-import jme3tools.converters.ImageToAwt;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.nodes.PhysicsCharacterNode;
 import com.jme3.bullet.nodes.PhysicsNode;
 import com.jme3.font.BitmapText;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -139,6 +129,7 @@ public class T5Racing extends SimpleApplication {
         inputManager.setCursorVisible(true);
         capturer = new ScreenCapturer(inputManager, renderManager, renderer,
                 rootNode, settings.getWidth(), settings.getHeight(), cam);
+        capturer.setup();
     }
 
 
@@ -244,41 +235,6 @@ public class T5Racing extends SimpleApplication {
 
         getCamera().getLocation().y = 25;
         getCamera().setDirection(new Vector3f(-1, 0, -1));
-    }
-
-    public void setupFloor() {
-        Material mat = assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall.j3m");
-        //mat.getTextureParam("m_DiffuseMap").getTextureValue().setWrap(WrapMode.Repeat);
-        //mat.getTextureParam("m_NormalMap").getTextureValue().setWrap(WrapMode.Repeat);
-        //mat.getTextureParam("m_ParallaxMap").getTextureValue().setWrap(WrapMode.Repeat);
-
-        Box floor = new Box(Vector3f.ZERO, 400, 0f, 400);
-        floor.scaleTextureCoordinates(new Vector2f(12.0f, 12.0f));
-        Geometry floorGeom = new Geometry("Floor", floor);
-        floorGeom.setShadowMode(ShadowMode.Receive);
-        floorGeom.setMaterial(mat);
-
-        PhysicsNode tb=new PhysicsNode(floorGeom,new MeshCollisionShape(floorGeom.getMesh()),0);
-        tb.setLocalTranslation(new Vector3f(0f,-6,0f));
-        tb.updateGeometricState();
-        rootNode.attachChild(tb);
-        bulletAppState.getPhysicsSpace().add(tb);
-    }
-
-    private Geometry findGeom(Spatial spatial, String name){
-        if (spatial instanceof Node){
-            Node node = (Node) spatial;
-            for (int i = 0; i < node.getQuantity(); i++){
-                Spatial child = node.getChild(i);
-                Geometry result = findGeom(child, name);
-                if (result != null)
-                    return result;
-            }
-        } else if (spatial instanceof Geometry){
-            if (spatial.getName().startsWith(name))
-                return (Geometry) spatial;
-        }
-        return null;
     }
 
     @Override

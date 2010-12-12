@@ -67,9 +67,6 @@ public class ScreenCapturer implements SceneProcessor, ActionListener {
         offView.setBackgroundColor(ColorRGBA.Black);
         offView.setClearEnabled(true);
 
-        // this will let us know when the scene has been rendered to the
-        // frame buffer
-        offView.addProcessor(this);
 
         // create offscreen framebuffer
         offBuffer = new FrameBuffer(width, height, 0);
@@ -93,7 +90,13 @@ public class ScreenCapturer implements SceneProcessor, ActionListener {
         //Setup the print screen key and event
         inputManager = im;
         im.addMapping("PrintScreen", new KeyTrigger(KeyInput.KEY_P));
-        im.addListener(this, "PrintScreen");
+    }
+
+    public void setup() {
+            // this will let us know when the scene has been rendered to the
+        // frame buffer
+        offView.addProcessor(this);
+        inputManager.addListener(this, "PrintScreen");
     }
 
     public void capture(Camera cam) {
