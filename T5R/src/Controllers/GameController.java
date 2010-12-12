@@ -32,7 +32,7 @@ public class GameController implements ActionListener {
     HUDNode hud;
     State state;
     InputManager inputManager;
-    Car car;
+    CarController car;
     Vector3f initialPosition;
     Quaternion initialRotation;
 
@@ -41,7 +41,7 @@ public class GameController implements ActionListener {
 
     public GameController(float readyTime, float setTime, float goTime,
             float raceTime, int checkpointCount, int lapCount, HUDNode hud,
-            Vector3f initialPosition, Quaternion initialRotation, Car car,
+            Vector3f initialPosition, Quaternion initialRotation, CarController car,
             InputManager inputManager) {
         this.state = State.None;
         this.readyTime = readyTime;
@@ -66,11 +66,9 @@ public class GameController implements ActionListener {
     void startRace() {
         state = State.Ready;
         time = 0;
-        car.setLocalTranslation(initialPosition);
-        car.setLocalRotation(initialRotation);
-        car.setLinearVelocity(Vector3f.ZERO);
-        car.setAngularVelocity(Vector3f.ZERO);
-        car.resetSuspension();
+        car.setup(initialPosition, initialRotation);
+        car.setBrakeLock(true);
+        car.setSteerLock(false);
     }
 
     public void update(float time) {
@@ -121,6 +119,7 @@ public class GameController implements ActionListener {
         if (goTime < time) {
             state = State.Racing;
             hud.showBigMessage("GO!");
+            car.setBrakeLock(false);
             time = 0;
         }
     }
@@ -136,7 +135,8 @@ public class GameController implements ActionListener {
     }
 
     private void EndRace() {
-
+        car.setSteerLock(true);
+        car.setBrakeLock(true);
     }
 
     public void onAction(String binding, boolean value, float tpf) {

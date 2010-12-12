@@ -10,6 +10,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
@@ -21,8 +22,18 @@ import com.jme3.math.Vector3f;
 public class CarController implements ActionListener {
     private Car car;
     private float steeringValue=0;
-    private float accelerationValue=0;
+    final float steerSpeed = 1f;
+    final float accelValue = 800;
+    final float brakeValue = 40;
+
     private InputManager inputManager;
+    private boolean brakeLock = true;
+    private boolean steerLock = false;
+
+    private boolean accel;
+    private boolean steerLeft;
+    private boolean steerRight;
+    private boolean brake;
 
     public CarController(InputManager inputManager, Car car) {
         this.car = car;
@@ -45,33 +56,53 @@ public class CarController implements ActionListener {
         inputManager.addListener(this,"Space");
         inputManager.addListener(this,"Reset");
     }
+ 
+    public void update(float time) {
+        if (steerLeft && !steerLock)
+            steeringValue += time * steerSpeed;
+
+        if (steerRight && !steerLock)
+            steeringValue -= time * steerSpeed;
+
+        if (!steerRight && !steerLeft)
+            steeringValue += time * FastMath.sign(-steeringValue) * steerSpeed;
+
+        steeringValue = FastMath.clamp(steeringValue, -0.5f, 0.5f);
+        car.steer(steeringValue);
+
+        car.accelerate(accel && !brakeLock? -accelValue : 0);
+
+        if  (brake || brakeLock)
+            car.brake(brakeValue);
+        else
+            car.brake(0);
+    }
 
     public void onAction(String binding, boolean value, float tpf) {
         if (binding.equals("Lefts")) {
-            if(value)
-                steeringValue+=.5f;
-            else
-                steeringValue+=-.5f;
-            car.steer(steeringValue);
+            steerLeft = value;
         } else if (binding.equals("Rights")) {
-            if(value)
-                steeringValue+=-.5f;
-            else
-                steeringValue+=.5f;
-            car.steer(steeringValue);
-        }
-        //note that our fancy car actually goes backwards..
-        else if (binding.equals("Ups")) {
-            if(value)
-                accelerationValue-=800;
-            else
-                accelerationValue+=800;
-            car.accelerate(accelerationValue);
+            steerRight = value;
+        } else if (binding.equals("Ups")) {
+            accel = value;
         } else if (binding.equals("Downs")) {
-            if(value)
-                car.brake(40f);
-            else
-                car.brake(0f);
+            brake = value;
         }
+    }
+
+    public void setup(Vector3f initialPosition, Quaternion initialRotation) {
+        car.setLocalTranslation(initialPosition);
+        car.setLocalRotation(initialRotation);
+        car.setLinearVelocity(Vector3f.ZERO);
+        car.setAngularVelocity(Vector3f.ZERO);
+        car.resetSuspension();
+    }
+
+    void setBrakeLock(boolean value) {
+        brakeLock = value;
+    }
+
+    void setSteerLock(boolean value) {
+        steerLock = value;
     }
 }

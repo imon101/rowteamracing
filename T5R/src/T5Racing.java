@@ -134,7 +134,7 @@ public class T5Racing extends SimpleApplication {
         capturer.setup();
 
         gameController = new GameController(5, 2, 2, 60, 10, 3, new HUDNode(),
-                new Vector3f(150,1,-20), Quaternion.IDENTITY, car,
+                new Vector3f(150,1,-20), Quaternion.IDENTITY, carController,
                 inputManager);
         gameController.setup();
     }
@@ -248,5 +248,6 @@ public class T5Racing extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         camera.update(tpf);
         gameController.update(tpf);
+        carController.update(tpf);
     }
 }
