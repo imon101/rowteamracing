@@ -1,8 +1,6 @@
 package Controllers;
 
-import Nodes.Car;
 import Nodes.Checkpoint;
-import Nodes.HUDNode;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -29,7 +27,7 @@ public class GameController implements ActionListener {
     float raceTime;
     int checkpointCount;
     int lapCount;
-    HUDNode hud;
+    HUDController hud;
     State state;
     InputManager inputManager;
     CarController car;
@@ -40,7 +38,7 @@ public class GameController implements ActionListener {
     int currentLap = 1;
 
     public GameController(float readyTime, float setTime, float goTime,
-            float raceTime, int checkpointCount, int lapCount, HUDNode hud,
+            float raceTime, int checkpointCount, int lapCount, HUDController hud,
             Vector3f initialPosition, Quaternion initialRotation, CarController car,
             InputManager inputManager) {
         this.state = State.None;
@@ -64,6 +62,7 @@ public class GameController implements ActionListener {
     }
     
     void startRace() {
+        hud.setTimeLeft(raceTime);
         state = State.Ready;
         time = 0;
         car.setup(initialPosition, initialRotation);
