@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nifty>
-    <screen id="start" controller="FadeController">
-        <layer id="layer" backgroundColor="#00000000" childLayout="center">
-            <panel id="panel" height="100%" width="100%" align="center" valign="center"
-            backgroundColor="#000000FF" childLayout="center" visibleToMouse="false">
-                <interact onClick="clickThing()"/>
+    <screen id="HUD" controller="Controllers.FadeController">
+        <layer backgroundColor="#00000000" childLayout="center">
+            <panel id="bigMessagePanel" width="160px" height="50px" align="center" valign="center"
+                backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
+                <text id="bigMessage" font="aurulent-sans-17.fnt" color="#ffff" text="A really big message" align="center" valign="center" />
+            </panel>
+        </layer>
+        <layer backgroundColor="#00000000" childLayout="center">
+            <panel id="timeLeftPanel" width="70px" height="50px" align="center" valign="top"
+                backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
+                <text id="timeLeft" font="aurulent-sans-17.fnt" color="#000f" text="00" align="center" valign="center" />
+            </panel>
+        </layer>
+        <layer backgroundColor="#00000000" childLayout="center">
+            <panel id="lapsPanel" width="70px" height="50px" align="left" valign="top"
+                backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
+                <text id="laps" font="aurulent-sans-17.fnt" color="#000f" text="0/0 Laps" align="center" valign="center" />
+            </panel>
+        </layer>
+        <layer backgroundColor="#00000000" childLayout="center">
+            <panel id="scorePanel" width="100px" height="50px" align="right" valign="top"
+                backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
+                <text id="laps" font="aurulent-sans-17.fnt" color="#000f" text="Score: 0000" align="center" valign="center" />
+            </panel>
+        </layer>
+        <layer backgroundColor="#00000000" childLayout="center">
+            <panel id="fadePanel" height="100%" width="100%" align="center" valign="center"
+            backgroundColor="#000000FF" visibleToMouse="false">
                 <effect>
                     <onStartScreen name="fade" start="#ff" end="#00"
                     length="3000" startDelay="5000" neverStopRendering="true"/>
@@ -14,13 +37,4 @@
             </panel>
         </layer>
     </screen>
-    <screen id="other" controller="FadeController">
-    <layer id="upperLayer" childLayout="center">
-        <panel id="upperPanel" width="50%" height="100%" backgroundColor="#ff000030" childLayout="center">
-            <panel id="upperAnotherPanel" width="100%" height="100%" childLayout="center">
-                <label id="upperLabel" text="red:secondLayerPanel1" align="right"/>
-            </panel>
-        </panel>
-    </layer>
-  </screen>
 </nifty>

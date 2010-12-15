@@ -3,8 +3,7 @@ import Controllers.CarController;
 import Controllers.GameController;
 import Nodes.BillboardNode;
 import Nodes.Car;
-import Nodes.GUINode;
-import Nodes.HUDNode;
+import Controllers.HUDController;
 import de.lessvoid.nifty.Nifty;
 import jme3tools.converters.ImageToAwt;
 import com.jme3.app.SimpleApplication;
@@ -82,9 +81,9 @@ public class T5Racing extends SimpleApplication {
                                                           audioRenderer,
                                                           guiViewPort);
         nifty = niftyDisplay.getNifty();
-        nifty.fromXml("src/T5RGUI.xml", "start");
+        nifty.fromXml("src/T5RGUI.xml", "HUD");
 
-        // attach the nifty display to the gui view port as a processor
+        //Attach the nifty display to the GUI view port as a processor
         guiViewPort.addProcessor(niftyDisplay);
 
         Node cameraAnchor = new Node();
@@ -104,10 +103,6 @@ public class T5Racing extends SimpleApplication {
         //Camera
         cam.setFrustumFar(150f);
         camera = new T5RCamera(cam, car, cameraAnchor, 5);
-
-        GUINode gui = new GUINode(assetManager, "Materials/GUI.j3m", new Vector2f(1, 10));
-        gui.setLocalTranslation(0, 0, 0);
-        rootNode.attachChild(gui);
 
         //Billboard trees
         Material mat = assetManager.loadMaterial("Materials/Billboard.j3m");
@@ -133,9 +128,10 @@ public class T5Racing extends SimpleApplication {
                 rootNode, settings.getWidth(), settings.getHeight(), cam);
         capturer.setup();
 
-        gameController = new GameController(5, 2, 2, 60, 10, 3, new HUDNode(),
-                new Vector3f(150,1,-20), Quaternion.IDENTITY, carController,
-                inputManager);
+        HUDController hud = new HUDController(nifty);
+        gameController = new GameController(5, 2, 2, 60, 10, 3,
+                hud, new Vector3f(150,1,-20),
+                Quaternion.IDENTITY, carController, inputManager);
         gameController.setup();
     }
 
