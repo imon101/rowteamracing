@@ -35,8 +35,18 @@ import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.jbullet.TerrainPhysicsShapeFactory;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.jme3.texture.Texture2D;
+import com.jme3.texture.Image;
 import java.util.ArrayList;
 import java.util.List;
+import Helpers.OrganicTexture;
+import Helpers.RoadTexture;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import javax.imageio.ImageIO;
+
 
 
 public class T5Racing extends SimpleApplication {
@@ -59,6 +69,8 @@ public class T5Racing extends SimpleApplication {
     Geometry lightMdl;
     Geometry collisionMarker;
     GameController gameController;
+
+
 
     public static void main(String[] args) {
         T5Racing app = new T5Racing();
@@ -123,10 +135,13 @@ public class T5Racing extends SimpleApplication {
         dl = new DirectionalLight();
         dl.setDirection(new Vector3f(0.5f, -0.1f, 0.3f).normalizeLocal());
         rootNode.addLight(dl);
-        inputManager.setCursorVisible(true);
+
+        
+       /* inputManager.setCursorVisible(true);
         capturer = new ScreenCapturer(inputManager, renderManager, renderer,
                 rootNode, settings.getWidth(), settings.getHeight(), cam);
-        capturer.setup();
+        capturer.setup();*/
+        
 
         HUDController hud = new HUDController(nifty);
         gameController = new GameController(5, 2, 2, 60, 10, 3,
@@ -143,13 +158,20 @@ public class T5Racing extends SimpleApplication {
         matRock = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
 
         // ALPHA map (for splat textures)
+
         matRock.setTexture("m_Alpha", assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
 
         // HEIGHTMAP image (for the terrain heightmap)
         Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
 
+
+
         // GRASS texture
-        Texture grass = assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+        OrganicTexture grassTexture = new OrganicTexture();
+        Texture grass = assetManager.loadTexture(grassTexture.texturePath());
+      
+
+
         grass.setWrap(WrapMode.Repeat);
         matRock.setTexture("m_Tex1", grass);
         matRock.setFloat("m_Tex1Scale", 64f);
@@ -161,7 +183,8 @@ public class T5Racing extends SimpleApplication {
         matRock.setFloat("m_Tex2Scale", 32f);
 
         // ROCK texture
-        Texture rock = assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+        RoadTexture road = new RoadTexture();
+        Texture rock = assetManager.loadTexture(road.texturePath());
         rock.setWrap(WrapMode.Repeat);
         matRock.setTexture("m_Tex3", rock);
         matRock.setFloat("m_Tex3Scale", 128f);
