@@ -5,7 +5,7 @@
 
 package Controllers;
 
-import Nodes.Car;
+import Nodes.CarNode;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -20,13 +20,14 @@ import com.jme3.math.Vector3f;
  */
 
 public class CarController implements ActionListener {
-    private Car car;
+    private CarNode car;
     private float steeringValue=0;
     final float steerSpeed = 1f;
     final float accelValue = 800;
     final float brakeValue = 40;
 
     private InputManager inputManager;
+    private HUDController hud;
     private boolean brakeLock = true;
     private boolean steerLock = false;
 
@@ -35,8 +36,12 @@ public class CarController implements ActionListener {
     private boolean steerRight;
     private boolean brake;
 
-    public CarController(InputManager inputManager, Car car) {
+    private float brakeTime = 0;
+    private float brakeTimeBeforeReverse = 1.5f;
+
+    public CarController(InputManager inputManager, CarNode car, HUDController hud) {
         this.car = car;
+        this.hud = hud;
         this.inputManager = inputManager;
         setupKeys();
     }
@@ -67,15 +72,23 @@ public class CarController implements ActionListener {
         if (!steerRight && !steerLeft)
             steeringValue += time * FastMath.sign(-steeringValue) * steerSpeed;
 
-        steeringValue = FastMath.clamp(steeringValue, -0.5f, 0.5f);
+        steeringValue = FastMath.clamp(steeringValue, -1.0f, 1.0f);
         car.steer(steeringValue);
 
         car.accelerate(accel && !brakeLock? -accelValue : 0);
 
-        if  (brake || brakeLock)
+        if  ((brake && brakeTime < brakeTimeBeforeReverse) || brakeLock) {
             car.brake(brakeValue);
-        else
+            brakeTime += time;
+        } else if (brake && brakeTime >= brakeTimeBeforeReverse) {
             car.brake(0);
+            car.accelerate(accelValue);
+        } else {
+            car.brake(0);
+            brakeTime = 0;
+        }
+
+        hud.setSpeed((int)Math.floor(10 * car.getLinearVelocity().length()));
     }
 
     public void onAction(String binding, boolean value, float tpf) {

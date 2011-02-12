@@ -1,0 +1,5 @@
+Material Pong Rock : Common/MatDefs/Misc/SimpleTextured.j3md {
+     MaterialParameters {
+        m_ColorMap : Textures/Track/Wall.png
+     }
+}

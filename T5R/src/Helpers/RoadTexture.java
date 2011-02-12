@@ -16,8 +16,8 @@ import java.awt.image.BufferedImage;
 public class RoadTexture extends ProceduralTexture{
 
 
-	public RoadTexture(){
-
+	public RoadTexture(boolean regenearteTexture){
+            super(regenearteTexture);
 
             	per.persistence = 0.925;
 		per.n = 6;

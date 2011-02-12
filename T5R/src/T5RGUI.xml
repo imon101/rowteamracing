@@ -22,7 +22,13 @@
         <layer backgroundColor="#00000000" childLayout="center">
             <panel id="scorePanel" width="100px" height="50px" align="right" valign="top"
                 backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
-                <text id="laps" font="aurulent-sans-17.fnt" color="#000f" text="Score: 0000" align="center" valign="center" />
+                <text id="score" font="aurulent-sans-17.fnt" color="#000f" text="Score: 0000" align="center" valign="center" />
+            </panel>
+        </layer>
+        <layer backgroundColor="#00000000" childLayout="center">
+            <panel id="speedPanel" y="50px" width="100px" height="50px" align="right" valign="bottom"
+                backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
+                <text id="speed" font="aurulent-sans-17.fnt" color="#000f" text="0000 Km/h" align="center" valign="center" />
             </panel>
         </layer>
         <layer backgroundColor="#00000000" childLayout="center">
@@ -30,7 +36,7 @@
             backgroundColor="#000000FF" visibleToMouse="false">
                 <effect>
                     <onStartScreen name="fade" start="#ff" end="#00"
-                    length="3000" startDelay="5000" neverStopRendering="true"/>
+                    length="3000" startDelay="2000" neverStopRendering="true"/>
                     <onEndScreen name="fade" start="#00" end="#ff"
                     length="3000" startDelay="000" />
                 </effect>

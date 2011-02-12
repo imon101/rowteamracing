@@ -12,7 +12,9 @@ import javax.vecmath.Vector3d;
 
 public class OrganicTexture extends ProceduralTexture {
 
-	public OrganicTexture(){
+	public OrganicTexture(boolean regenerateTexture){
+                super(regenerateTexture);
+
 		per.persistence = 0.85;
 		per.n = 16;
                 name = "Grass";
