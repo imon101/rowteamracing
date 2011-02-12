@@ -21,7 +21,8 @@ import javax.vecmath.Vector3d;
 public class DirtTexture extends ProceduralTexture{
 
 
-	public DirtTexture(){
+	public DirtTexture(boolean regenerateTexture){
+            super(regenerateTexture);
 		per.persistence = 0.85;
 		per.n = 16;
                 name = "Dirt";

@@ -1,6 +1,6 @@
 package Controllers;
 
-import Nodes.Checkpoint;
+import Nodes.CheckpointNode;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -24,9 +24,13 @@ public class GameController implements ActionListener {
     float readyTime;
     float setTime;
     float goTime;
+    float messageTime;
+    float totalMessageTime;
     float raceTime;
     int checkpointCount;
     int lapCount;
+    boolean messageFaded = false;
+
     HUDController hud;
     State state;
     InputManager inputManager;
@@ -38,59 +42,66 @@ public class GameController implements ActionListener {
     int currentLap = 1;
 
     public GameController(float readyTime, float setTime, float goTime,
-            float raceTime, int checkpointCount, int lapCount, HUDController hud,
-            Vector3f initialPosition, Quaternion initialRotation, CarController car,
-            InputManager inputManager) {
+            float messageTime, float raceTime, int lapCount, HUDController hud,
+            CarController car, InputManager inputManager) {
         this.state = State.None;
         this.readyTime = readyTime;
         this.setTime = setTime;
         this.goTime = goTime;
+        this.messageTime = 0f;
+        this.totalMessageTime = messageTime;
         this.raceTime = raceTime;
-        this.checkpointCount = checkpointCount;
         this.lapCount = lapCount;
         this.hud = hud;
         this.inputManager = inputManager;
         this.car = car;
-        this.initialPosition = initialPosition;
-        this.initialRotation = initialRotation;
+        hud.setTotalLaps(lapCount);
         inputManager.addMapping("Restart", new KeyTrigger(KeyInput.KEY_RETURN));
     }
 
-    public void setup() {
+    public void setup(int checkpointCount, Vector3f initialPosition,
+            Quaternion initialRotation) {
         inputManager.addListener(this,"Restart");
+        this.checkpointCount = checkpointCount;
+        this.initialPosition = initialPosition;
+        this.initialRotation = initialRotation;
         startRace();
     }
     
     void startRace() {
         hud.setTimeLeft(raceTime);
         state = State.Ready;
+        currentCheckpoint = 0;
         time = 0;
         car.setup(initialPosition, initialRotation);
         car.setBrakeLock(true);
         car.setSteerLock(false);
     }
 
-    public void update(float time) {
-        this.time += time;
+    public void update(float tick) {
+        this.time += tick;
         switch(state) {
-            case Ready: Ready(); break;
-            case Set: Set(); break;
-            case Go: Go(); break;
-            case Racing: Racing(); break;
-            case EndRace: EndRace(); break;
+            case Ready: Ready(tick); break;
+            case Set: Set(tick); break;
+            case Go: Go(tick); break;
+            case Racing: Racing(tick); break;
+            case EndRace: EndRace(tick); break;
         }
     }
 
-    public void GrabCheckpoint(Checkpoint checkpoint) {
-        if (currentCheckpoint != checkpoint.getOrder())
+    public void grabCheckpoint(CheckpointNode checkpoint) {
+        if (currentCheckpoint != checkpoint.getIndex())
             return;
 
         raceTime += checkpoint.getExtraTime();
-        hud.showBigMessage("TIME EXTENSION!");
+        hud.showBigMessage("TIME EXTENSION! +" + checkpoint.getExtraTime());
+        messageTime = 0;
+        messageFaded = false;
 
         if (++currentCheckpoint >= checkpointCount) {
             if (++currentLap <= lapCount) {
                 hud.setLaps(currentLap);
+                currentCheckpoint = 0;
             } else {
                 state = State.EndRace;
                 hud.showBigMessage("FINISHED!");
@@ -98,7 +109,7 @@ public class GameController implements ActionListener {
         }
     }
 
-    private void Ready() {
+    private void Ready(float tick) {
         if (readyTime < time) {
             state = State.Set;
             hud.showBigMessage("READY");
@@ -106,7 +117,7 @@ public class GameController implements ActionListener {
         }
     }
 
-    private void Set() {
+    private void Set(float tick) {
         if (setTime < time) {
             state = State.Go;
             hud.showBigMessage("SET");
@@ -114,7 +125,7 @@ public class GameController implements ActionListener {
         }
     }
 
-    private void Go() {
+    private void Go(float tick) {
         if (goTime < time) {
             state = State.Racing;
             hud.showBigMessage("GO!");
@@ -123,7 +134,15 @@ public class GameController implements ActionListener {
         }
     }
 
-    private void Racing() {
+    private void Racing(float tick) {
+        this.messageTime += tick;
+
+        if (!messageFaded &&  messageTime > totalMessageTime) {
+            messageFaded = true;
+            messageTime = 0;
+            hud.hideBigMessage();
+        }
+
         if (raceTime < time) {
             state = State.EndRace;
             hud.showBigMessage("OUT OF TIME!");
@@ -133,7 +152,7 @@ public class GameController implements ActionListener {
         }
     }
 
-    private void EndRace() {
+    private void EndRace(float tick) {
         car.setSteerLock(true);
         car.setBrakeLock(true);
     }

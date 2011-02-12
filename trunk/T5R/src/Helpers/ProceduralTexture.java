@@ -24,20 +24,20 @@ public  Perlin per;
 public Color color;
 public Color gradientColor;
 public String name;
-
+private boolean regenerateTexture;
 
 static String outputType = "png";
 
-public ProceduralTexture(){
+public ProceduralTexture(boolean regenerateTexture){
 
      per = new Perlin();
-    
+    this.regenerateTexture = regenerateTexture;
 }
 
 
 public String texturePath(){
-
-    this.createTexture();
+    if (regenerateTexture)
+        this.createTexture();
     return "Textures/Terrain/splat/"+name+"."+outputType;
 }
 

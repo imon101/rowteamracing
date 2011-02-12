@@ -1,0 +1,6 @@
+Material Pong Rock : Common/MatDefs/Misc/SimpleTextured.j3md {
+     MaterialParameters {
+        m_ColorMap : Textures/Track/GuardRail.png
+        m_YCoCg : false
+     }
+}

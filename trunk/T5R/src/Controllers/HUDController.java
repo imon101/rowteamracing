@@ -20,21 +20,49 @@ public class HUDController {
     Nifty nifty;
     Screen screen;
     TextRenderer timeLeft;
+    TextRenderer laps;
+    TextRenderer score;
+    TextRenderer speed;
+    TextRenderer bigMessage;
+    Element bigMessagePanel;
+    int totalLaps;
 
     public HUDController(Nifty nifty) {
         this.nifty = nifty;
         screen = nifty.getScreen("HUD");
-        Element timeLeftElement = screen.findElementByName("timeLeft");
-        timeLeft = timeLeftElement.getRenderer(TextRenderer.class);
+
+        timeLeft = screen.findElementByName("timeLeft")
+                .getRenderer(TextRenderer.class);
+
+        laps = screen.findElementByName("laps")
+                .getRenderer(TextRenderer.class);
+
+        score = screen.findElementByName("score")
+                .getRenderer(TextRenderer.class);
+
+        speed = screen.findElementByName("speed")
+                .getRenderer(TextRenderer.class);
+        
+        bigMessage = screen.findElementByName("bigMessage")
+                .getRenderer(TextRenderer.class);
+    
+        bigMessagePanel = screen.findElementByName("bigMessagePanel");
+        bigMessagePanel.setVisible(false);
     }
 
     public void show() {
         nifty.gotoScreen("HUD");
+
     }
 
     public void showBigMessage(String message) {
-        //TODO Implement
+        bigMessage.setText(message);
+        bigMessagePanel.setVisible(true);
         System.out.println(message);
+    }
+
+    public void hideBigMessage() {
+        bigMessagePanel.setVisible(false);
     }
 
     public void setTimeLeft(float value) {
@@ -49,12 +77,16 @@ public class HUDController {
     }
 
     public void setLaps(int laps) {
-        //TODO Implement
-        System.out.println("Lap: " + laps);
+        this.laps.setText("" + laps + "/" + totalLaps + " Laps");
     }
 
     public void setTotalLaps(int laps) {
-        //TODO Implement
-        System.out.println("Total Laps: " + laps);
+        totalLaps = laps;
+        this.laps.setText("1/" + totalLaps + " Laps");
+    }
+
+    public void setSpeed(int speedVal)
+    {
+        speed.setText("" + speedVal + " Km/h");
     }
 }

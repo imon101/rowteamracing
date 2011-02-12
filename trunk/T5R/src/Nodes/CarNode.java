@@ -22,7 +22,7 @@ import com.jme3.scene.Spatial;
  *
  * @author ArkanRow
  */
-public class Car extends PhysicsVehicleNode {
+public class CarNode extends PhysicsVehicleNode {
     float stiffness=120.0f; //200=f1 car
     float compValue=0.2f;   //(lower than damp!)
     float dampValue=0.3f;
@@ -32,7 +32,7 @@ public class Car extends PhysicsVehicleNode {
     private Node node_fr, node_fl, node_br, node_bl;
     private float wheelRadius;
 
-    public Car(AssetManager assetManager) {
+    public CarNode(AssetManager assetManager) {
         Spatial car = assetManager.loadModel("Models/Ferrari/Car.scene");
         Node carNode = (Node) car;
         final Geometry chasis = findGeom(carNode, "Car");
