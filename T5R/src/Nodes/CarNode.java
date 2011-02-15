@@ -11,6 +11,8 @@ import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CompoundCollisionShape;
 import com.jme3.bullet.nodes.PhysicsVehicleNode;
 import com.jme3.bullet.nodes.PhysicsVehicleWheel;
+import com.jme3.light.PointLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
@@ -26,14 +28,18 @@ public class CarNode extends PhysicsVehicleNode {
     float stiffness=120.0f; //200=f1 car
     float compValue=0.2f;   //(lower than damp!)
     float dampValue=0.3f;
-    final float mass = 400; //400
 
-    private PhysicsVehicleWheel fr, fl, br, bl;
     private Node node_fr, node_fl, node_br, node_bl;
     private float wheelRadius;
 
-    public CarNode(AssetManager assetManager) {
-        Spatial car = assetManager.loadModel("Models/Ferrari/Car.scene");
+    public CarNode(float stiffness, float compValue, float dampValue, float mass,
+            AssetManager assetManager) {
+        this.stiffness = stiffness;
+        this.compValue = compValue;
+        this.dampValue = dampValue;
+        this.mass = mass;
+
+        Spatial car = assetManager.loadModel("Models/Ferrari/Car.j3o");
         Node carNode = (Node) car;
         final Geometry chasis = findGeom(carNode, "Car");
         BoundingBox box = (BoundingBox) chasis.getModelBound();
@@ -120,9 +126,15 @@ public class CarNode extends PhysicsVehicleNode {
 
         this.getWheel(2).setFrictionSlip(4);
         this.getWheel(3).setFrictionSlip(4);
+
+        PointLight pl = new PointLight();
+        this.addLight(pl);
+        pl.setPosition(new Vector3f(0, 0, 0));
+        pl.setRadius(30);
+        pl.setColor(ColorRGBA.Blue);
     }
 
-        private Geometry findGeom(Spatial spatial, String name){
+    private Geometry findGeom(Spatial spatial, String name){
         if (spatial instanceof Node){
             Node node = (Node) spatial;
             for (int i = 0; i < node.getQuantity(); i++){

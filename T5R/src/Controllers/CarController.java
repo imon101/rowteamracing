@@ -39,7 +39,8 @@ public class CarController implements ActionListener {
     private float brakeTime = 0;
     private float brakeTimeBeforeReverse = 1.5f;
 
-    public CarController(InputManager inputManager, CarNode car, HUDController hud) {
+    public CarController(InputManager inputManager, CarNode car,
+            HUDController hud) {
         this.car = car;
         this.hud = hud;
         this.inputManager = inputManager;

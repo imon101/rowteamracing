@@ -22,17 +22,16 @@ import com.jme3.texture.Texture.WrapMode;
  */
 public class TrackNode extends PhysicsNode {
     public TrackNode(AssetManager assetManager) {
-        Geometry collisions = (Geometry) assetManager.loadModel("Models/Track/TrackCollisions.obj");
+        Geometry collisions = (Geometry) assetManager.loadModel("Models/Track/TrackCollisions.j3o");
         mass = 0;
         setCollisionShape(new MeshCollisionShape(collisions.getMesh()));    //TODO Update collision shape
-        attachDebugShape(assetManager); //TODO Remove
 
-        LoadModel("Models/Track/Advertisments.obj", "Materials/Advertisment.j3m", assetManager);
-        LoadModel("Models/Track/GuardRails.obj", "Materials/GuardRails.j3m", assetManager);
-        LoadModel("Models/Track/Grass.obj", "Materials/Grass.j3m", assetManager);
-        LoadModel("Models/Track/Track.obj", "Materials/Road.j3m", assetManager);
-        LoadModel("Models/Track/Crowd.obj", "Materials/Crowd.j3m", assetManager);
-        LoadModel("Models/Track/Seats.obj", "Materials/Wall.j3m", assetManager);
+        LoadModel("Models/Track/Advertisments.j3o", "Materials/Advertisment.j3m", assetManager);
+        LoadModel("Models/Track/GuardRails.j3o", "Materials/GuardRails.j3m", assetManager);
+        LoadModel("Models/Track/Grass.j3o", "Materials/Grass.j3m", assetManager);
+        LoadModel("Models/Track/Track.j3o", "Materials/Road.j3m", assetManager);
+        LoadModel("Models/Track/Crowd.j3o", "Materials/Crowd.j3m", assetManager);
+        LoadModel("Models/Track/Seats.j3o", "Materials/Wall.j3m", assetManager);
     }
 
     private void LoadModel(String model, String material, AssetManager assetManager) {
@@ -42,7 +41,10 @@ public class TrackNode extends PhysicsNode {
         mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off); // show back side too
         mat.getAdditionalRenderState().setAlphaTest(true); // alpha on each face
-        mat.getTextureParam("m_ColorMap").getTextureValue().setWrap(WrapMode.Repeat);
+
+        if (mat.getMaterialDef().getName().equals("Plain Texture")) {
+            mat.getTextureParam("m_ColorMap").getTextureValue().setWrap(WrapMode.Repeat);
+        }
 
         geom.setShadowMode(ShadowMode.CastAndReceive);
         geom.setMaterial(mat);

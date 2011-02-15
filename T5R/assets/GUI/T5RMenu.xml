@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty.xsd http://nifty-gui.sourceforge.net/nifty.xsd">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+    <style id="my-listbox-item-style" base="nifty-listbox-item">
+        <effect>
+            <onCustom name="updateScrollpanelPositionToDisplayElement" target="listBoxStatic" oneShot="true" />
+        </effect>
+    </style>
+
+    <screen id="start" controller="T5Racing">
+        <layer id="introLayer" childLayout="center">
+            <panel childLayout="vertical" height="80%" width="80%" align="center" valign="center">
+                <panel childLayout="vertical" style="nifty-panel" width="100%" height="100%">
+                    <label text="Team 5 Racing" width="95%"/>
+                    <label text="Uribe's 2K" width="95%"/>
+                    <label text=" "/>
+                    <panel childLayout="horizontal" align="center" style="nifty-panel" width="30%" height="20%">
+                        <label text="Player: "/>
+                        <label id="name" text="ROW"/>
+                    </panel>
+                    <control id="race" name="button" label="Start Race" align="center">
+                        <interact onClick="race()"/>
+                    </control>
+                    <control id="high" name="button" label="High Scores" align="center">
+                        <interact onClick="highScores()"/>
+                    </control>
+                    <!--
+                    <control id="sound" name="button" label="Sound: ON" align="center">
+                        <interact onClick="sound()"/>
+                    </control>
+                    -->
+                    <control id="sky" name="button" label="Sky: Cloudy" align="center">
+                        <interact onClick="sky()"/>
+                    </control>
+                    <control id="credits" name="button" label="Credits" align="center">
+                        <interact onClick="credits()"/>
+                    </control>
+                    <control id="exit" name="button" label="Exit" align="center">
+                        <interact onClick="exit()"/>
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+
+    <screen id="highscores" controller="Controllers.HighScoreTable">
+        <layer id="introLayer" childLayout="center">
+            <panel childLayout="vertical" height="80%" width="80%" align="center" valign="center">
+                <panel childLayout="vertical" style="nifty-panel" width="100%" height="100%">
+                    <label text="High Scores" width="95%"/>
+                    <label text=" "/>
+                    <label id="9" text=""/>
+                    <label id="8" text=""/>
+                    <label id="7" text=""/>
+                    <label id="6" text=""/>
+                    <label id="5" text=""/>
+                    <label id="4" text=""/>
+                    <label id="3" text=""/>
+                    <label id="2" text=""/>
+                    <label id="1" text=""/>
+                    <label id="0" text=""/>
+                    <label text=" "/>
+                    <control id="back" name="button" label="Back" align="center">
+                        <interact onClick="back()"/>
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="credits" controller="Controllers.CreditsController">
+        <layer id="introLayer" childLayout="center">
+            <panel childLayout="vertical" height="80%" width="80%" align="center" valign="center">
+                <panel childLayout="vertical" style="nifty-panel" width="100%" height="100%">
+                    <label text="Credits" width="95%"/>
+                    <label text=" "/>
+                    <label text="A game created by Marcos Pianelli and Rodrigo Rearden"/>
+                    <control id="back" name="button" label="Back" align="center">
+                        <interact onClick="back()"/>
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+</nifty>
