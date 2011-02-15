@@ -37,9 +37,6 @@ public class HUDController {
         laps = screen.findElementByName("laps")
                 .getRenderer(TextRenderer.class);
 
-        score = screen.findElementByName("score")
-                .getRenderer(TextRenderer.class);
-
         speed = screen.findElementByName("speed")
                 .getRenderer(TextRenderer.class);
         

@@ -2,7 +2,7 @@
 <nifty>
     <screen id="HUD" controller="Controllers.FadeController">
         <layer backgroundColor="#00000000" childLayout="center">
-            <panel id="bigMessagePanel" width="160px" height="50px" align="center" valign="center"
+            <panel id="bigMessagePanel" width="180px" height="50px" align="center" valign="center"
                 backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
                 <text id="bigMessage" font="aurulent-sans-17.fnt" color="#ffff" text="A really big message" align="center" valign="center" />
             </panel>
@@ -20,13 +20,7 @@
             </panel>
         </layer>
         <layer backgroundColor="#00000000" childLayout="center">
-            <panel id="scorePanel" width="100px" height="50px" align="right" valign="top"
-                backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
-                <text id="score" font="aurulent-sans-17.fnt" color="#000f" text="Score: 0000" align="center" valign="center" />
-            </panel>
-        </layer>
-        <layer backgroundColor="#00000000" childLayout="center">
-            <panel id="speedPanel" y="50px" width="100px" height="50px" align="right" valign="bottom"
+            <panel id="speedPanel" y="50px" width="100px" height="50px" align="right" valign="top"
                 backgroundColor="#00000030" childLayout="center" visibleToMouse="false">
                 <text id="speed" font="aurulent-sans-17.fnt" color="#000f" text="0000 Km/h" align="center" valign="center" />
             </panel>

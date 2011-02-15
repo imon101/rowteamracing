@@ -18,8 +18,6 @@ import java.util.Scanner;
  */
 public class FloatArrayLoader {
     public static Float[] load(String filename) throws FileNotFoundException {
-        StringBuilder text = new StringBuilder();
-        String NL = System.getProperty("line.separator");
         Scanner scanner = new Scanner(new FileInputStream(filename));
         ArrayList<Float> vec = new ArrayList<Float>();
 

@@ -8,7 +8,6 @@ package Helpers;
 import com.jme3.math.Vector3f;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,8 +17,6 @@ import java.util.Scanner;
  */
 public class Vector3ArrayLoader {
     public static Vector3f[] load(String filename) throws FileNotFoundException {
-        StringBuilder text = new StringBuilder();
-        String NL = System.getProperty("line.separator");
         Scanner scanner = new Scanner(new FileInputStream(filename));
         ArrayList<Vector3f> vec = new ArrayList<Vector3f>();
 

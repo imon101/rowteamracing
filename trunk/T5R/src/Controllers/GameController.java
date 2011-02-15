@@ -5,8 +5,13 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this template, choose Tools | Templates
@@ -17,7 +22,7 @@ import com.jme3.math.Vector3f;
  *
  * @author ArkanRow
  */
-public class GameController implements ActionListener {
+public class GameController {
     private enum State { None, Ready, Set, Go, Racing, EndRace };
     float time = 0;
 
@@ -37,13 +42,17 @@ public class GameController implements ActionListener {
     CarController car;
     Vector3f initialPosition;
     Quaternion initialRotation;
+    String playerName;
+    HighScoreTable highScoreTable;
+    Menu menu;
 
     int currentCheckpoint = 0;
     int currentLap = 1;
 
     public GameController(float readyTime, float setTime, float goTime,
             float messageTime, float raceTime, int lapCount, HUDController hud,
-            CarController car, InputManager inputManager) {
+            CarController car, InputManager inputManager, String playerName,
+            HighScoreTable highScoreTable, Menu menu) {
         this.state = State.None;
         this.readyTime = readyTime;
         this.setTime = setTime;
@@ -55,13 +64,14 @@ public class GameController implements ActionListener {
         this.hud = hud;
         this.inputManager = inputManager;
         this.car = car;
-        hud.setTotalLaps(lapCount);
+        this.playerName = playerName;
+        this.highScoreTable = highScoreTable;
+        this.menu = menu;
         inputManager.addMapping("Restart", new KeyTrigger(KeyInput.KEY_RETURN));
     }
 
     public void setup(int checkpointCount, Vector3f initialPosition,
             Quaternion initialRotation) {
-        inputManager.addListener(this,"Restart");
         this.checkpointCount = checkpointCount;
         this.initialPosition = initialPosition;
         this.initialRotation = initialRotation;
@@ -70,6 +80,7 @@ public class GameController implements ActionListener {
     
     void startRace() {
         hud.setTimeLeft(raceTime);
+        hud.setTotalLaps(lapCount);
         state = State.Ready;
         currentCheckpoint = 0;
         time = 0;
@@ -105,6 +116,13 @@ public class GameController implements ActionListener {
             } else {
                 state = State.EndRace;
                 hud.showBigMessage("FINISHED!");
+                try {
+                    highScoreTable.addScore(playerName, (int) FastMath.floor(raceTime - time));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -153,15 +171,11 @@ public class GameController implements ActionListener {
     }
 
     private void EndRace(float tick) {
+        messageTime += tick;
         car.setSteerLock(true);
         car.setBrakeLock(true);
-    }
 
-    public void onAction(String binding, boolean value, float tpf) {
-        if (binding.equals("Restart")) {
-            if(value && state == State.EndRace) {
-                startRace();
-            }
-        }
+        if (messageTime > totalMessageTime)
+            menu.backToMenu();
     }
 }
